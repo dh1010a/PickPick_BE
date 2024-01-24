@@ -3,18 +3,19 @@ package com.pickpick.server.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@Builder
+@AllArgsConstructor
+@Table(name = "USERS")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Users {
 
 	@Id
@@ -31,6 +32,7 @@ public class Users {
 	@Column(nullable = false)
 	private String password;
 
+	@Column(nullable = false)
 	private String phoneNum;
 
 	private String imgUrl;
@@ -45,19 +47,8 @@ public class Users {
 
 	private LocalDate createdAt;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "users")
-	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "users")
+//	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
-	@Builder
-	public Users(String name, String email, String password, String phoneNum, String imgUrl, PublicStatus publicStatus, ShareStatus shareStatus) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.phoneNum = phoneNum;
-		this.imgUrl = imgUrl;
-		this.publicStatus = publicStatus;
-		this.shareStatus = shareStatus;
-		this.createdAt = LocalDate.now();
-	}
 }
