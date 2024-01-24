@@ -19,14 +19,14 @@ import java.util.List;
 public class Users {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Long id;
 
 	@Column(nullable = false)
 	private String name;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false, unique = true, length = 30)
 	private String email;
 
 	@Column(nullable = false)
