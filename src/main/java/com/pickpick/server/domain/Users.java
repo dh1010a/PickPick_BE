@@ -2,12 +2,12 @@ package com.pickpick.server.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pickpick.server.domain.enums.PublicStatus;
+import com.pickpick.server.domain.enums.ShareStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

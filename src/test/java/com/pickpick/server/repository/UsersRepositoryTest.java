@@ -1,7 +1,7 @@
 package com.pickpick.server.repository;
 
-import com.pickpick.server.domain.PublicStatus;
-import com.pickpick.server.domain.ShareStatus;
+import com.pickpick.server.domain.enums.PublicStatus;
+import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.domain.Users;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
