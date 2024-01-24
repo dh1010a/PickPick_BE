@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -42,6 +44,10 @@ public class Users {
 	private ShareStatus shareStatus;
 
 	private LocalDate createdAt;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "users")
+	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
 	@Builder
 	public Users(String name, String email, String password, String phoneNum, String imgUrl, PublicStatus publicStatus, ShareStatus shareStatus) {

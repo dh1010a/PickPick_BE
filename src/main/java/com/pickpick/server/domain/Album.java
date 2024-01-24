@@ -1,10 +1,14 @@
 package com.pickpick.server.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -19,6 +23,10 @@ public class Album {
 	private String name;
 
 	private String titleImgUrl;
+
+	@OneToMany(mappedBy = "album")
+	@JsonIgnore
+	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
 	private AlbumType type;
