@@ -52,5 +52,6 @@ public class Users {
 		this.imgUrl = imgUrl;
 		this.publicStatus = publicStatus;
 		this.shareStatus = shareStatus;
+		this.createdAt = LocalDate.now();
 	}
 }
