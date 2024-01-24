@@ -1,9 +1,9 @@
 package com.pickpick.server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.domain.PublicStatus;
-import com.pickpick.server.domain.ShareStatus;
 import com.pickpick.server.domain.Users;
+import com.pickpick.server.domain.enums.PublicStatus;
+import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.repository.UsersRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
