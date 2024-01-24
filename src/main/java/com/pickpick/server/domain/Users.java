@@ -31,6 +31,8 @@ public class Users {
 
 	private String phoneNum;
 
+	private String imgUrl;
+
 	@Enumerated(EnumType.STRING)
 	@JsonIgnore
 	private PublicStatus publicStatus;
@@ -42,11 +44,12 @@ public class Users {
 	private LocalDate createdAt;
 
 	@Builder
-	public Users(String name, String email, String password, String phoneNum, PublicStatus publicStatus, ShareStatus shareStatus) {
+	public Users(String name, String email, String password, String phoneNum, String imgUrl, PublicStatus publicStatus, ShareStatus shareStatus) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.phoneNum = phoneNum;
+		this.imgUrl = imgUrl;
 		this.publicStatus = publicStatus;
 		this.shareStatus = shareStatus;
 	}
