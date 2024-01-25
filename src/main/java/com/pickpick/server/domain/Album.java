@@ -1,9 +1,12 @@
 package com.pickpick.server.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pickpick.server.domain.enums.AlbumType;
+import com.pickpick.server.domain.enums.ShareStatus;
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +15,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Album {
 
 	@Id
@@ -24,13 +29,16 @@ public class Album {
 
 	private String titleImgUrl;
 
+	private LocalDate createdAt;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private ShareStatus shareStatus;
+
 	@OneToMany(mappedBy = "album")
 	@JsonIgnore
 	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private AlbumType type;
 
 	@OneToMany(mappedBy = "album")
 	private List<Feed> feed = new ArrayList<>();
