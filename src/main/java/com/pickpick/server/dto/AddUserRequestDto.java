@@ -1,6 +1,5 @@
 package com.pickpick.server.dto;
 
-
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
 import lombok.Builder;

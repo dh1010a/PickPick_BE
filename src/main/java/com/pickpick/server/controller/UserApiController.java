@@ -1,6 +1,5 @@
 package com.pickpick.server.controller;
 
-
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.dto.AddUserRequestDto;
