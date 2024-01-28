@@ -21,7 +21,7 @@ public class SharedAlbum {
 	@Column(name = "sharedAlbum_id")
 	private Long id;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private Users user;
 

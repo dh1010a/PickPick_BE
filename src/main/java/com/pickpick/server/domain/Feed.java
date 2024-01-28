@@ -1,7 +1,11 @@
 package com.pickpick.server.domain;
 
 import com.pickpick.server.domain.Album;
+import com.pickpick.server.domain.enums.BookMark;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,12 +23,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Builder
+@Setter
+@DynamicInsert
 public class Feed {
 
     @Id
@@ -33,7 +41,12 @@ public class Feed {
 
     private String content;
 
-    private LocalDateTime createdAt;
+    @Column(nullable = false, length = 3)
+    @ColumnDefault("'OFF'")
+    @Enumerated(EnumType.STRING)
+    private BookMark bookMark;
+
+    private LocalDate createdAt;
 
     private String imgUrl;
 
