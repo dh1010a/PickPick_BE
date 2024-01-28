@@ -37,7 +37,7 @@ class UsersRepositoryTest {
 	@Test
 	public void 회원저장_성공() throws Exception{
 		//given
-		Users user = Users.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888620").createdAt(LocalDate.now())
+		Users user = Users.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888").createdAt(LocalDate.now())
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		//when
 		Users saveUser = usersRepository.save(user);
@@ -61,7 +61,7 @@ class UsersRepositoryTest {
 	@Test
 	public void 비밀번호없이_가입시_오류() throws Exception{
 		//given
-		Users user = Users.builder().name("도현").email("dh1010a@naver.com").phoneNum("01054888620").createdAt(LocalDate.now())
+		Users user = Users.builder().name("도현").email("dh1010a@naver.com").phoneNum("01054888").createdAt(LocalDate.now())
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		//then
 		assertThrows(Exception.class, () -> usersRepository.save(user));
@@ -70,9 +70,9 @@ class UsersRepositoryTest {
 	@Test
 	public void 회원가입시_이메일중복_오류() throws Exception{
 		//given
-		Users user = Users.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888620").createdAt(LocalDate.now())
+		Users user = Users.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888").createdAt(LocalDate.now())
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
-		Users user2 = Users.builder().name("현수").email("dh1010a@naver.com").password("0000").phoneNum("01012345678").createdAt(LocalDate.now())
+		Users user2 = Users.builder().name("현수").email("dh1010a@naver.com").password("0000").phoneNum("01054888").createdAt(LocalDate.now())
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 
 
@@ -86,7 +86,7 @@ class UsersRepositoryTest {
 	@Test
 	public void 회원삭제_성공() throws Exception{
 		//given
-		Users user = Users.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888620").createdAt(LocalDate.now())
+		Users user = Users.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888").createdAt(LocalDate.now())
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		usersRepository.save(user);
 		clear();
