@@ -18,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -67,15 +69,20 @@ public class SecurityConfig {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 
 		daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-		daoAuthenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 
 		return daoAuthenticationProvider;
 	}
 
 	@Bean
+	public static PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+
+	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {//2 - AuthenticationManager 등록
 		DaoAuthenticationProvider provider = daoAuthenticationProvider();//DaoAuthenticationProvider 사용
-		provider.setPasswordEncoder(bCryptPasswordEncoder());//PasswordEncoder로는 PasswordEncoderFactories.createDelegatingPasswordEncoder() 사용
+		provider.setPasswordEncoder(passwordEncoder());//PasswordEncoder로는 PasswordEncoderFactories.createDelegatingPasswordEncoder() 사용
 		provider.setUserDetailsService(userDetailsService); //이후 작성할 코드입니다.
 		return new ProviderManager(provider);
 	}
@@ -99,15 +106,10 @@ public class SecurityConfig {
 		return jsonUsernamePasswordLoginFilter;
 	}
 
-	@Bean
-	public BCryptPasswordEncoder bCryptPasswordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
-	@Bean
-	public WebSecurityCustomizer configure() {
-		return (web -> web.ignoring()
-			.requestMatchers(toH2Console())
-		);
-	}
+//	@Bean
+//	public WebSecurityCustomizer configure() {
+//		return (web -> web.ignoring()
+//			.requestMatchers(toH2Console())
+//		);
+//	}
 }
