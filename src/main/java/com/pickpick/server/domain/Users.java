@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -47,9 +49,9 @@ public class Users {
 
 	private LocalDate createdAt;
 
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "users")
-//	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "user")
+	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
 	//== 패스워드 암호화 ==//
 	public void encodePassword(PasswordEncoder passwordEncoder){

@@ -13,6 +13,7 @@ public class AlbumRequest {
     @Getter
     public static class CreateDTO {
 
+
         private String name;
 
         private String titleImgUrl;

@@ -26,6 +26,12 @@ public class AlbumConverter {
             .build();
     }
 
+    public static AlbumResponse.GetAlbumDTO toGetAlbumDTO(List<List<Long>> albumId){
+        return AlbumResponse.GetAlbumDTO.builder()
+            .shareAlbumId(albumId.get(0))
+            .nonShareAlbumId(albumId.get(1))
+            .build();
+    }
 
 
 }
