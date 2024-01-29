@@ -47,6 +47,18 @@ public class Users {
 
 	private LocalDate createdAt;
 
+	//== jwt 토큰 추가 ==//
+	@Column(length = 1000)
+	private String refreshToken;
+
+	public void updateRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
+	public void destroyRefreshToken() {
+		this.refreshToken = null;
+	}
+
 //	@JsonIgnore
 //	@OneToMany(mappedBy = "users")
 //	private List<SharedAlbum> sharedAlbums = new ArrayList<>();

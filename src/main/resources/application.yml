@@ -5,6 +5,8 @@ spring:
     password: 1234
     driver-class-name: org.h2.Driver
 
+  profiles:
+    include: jwt #jwt.yml 불러오기
 
   jpa:
     hibernate:

@@ -110,7 +110,7 @@ public class LoginTest {
 		//when, then
 		MvcResult result = perform(LOGIN_RUL, APPLICATION_JSON, map)
 				.andDo(print())
-				.andExpect(status().isOk())
+				.andExpect(status().isUnauthorized())
 				.andReturn();
 
 	}
@@ -124,7 +124,7 @@ public class LoginTest {
 		//when, then
 		MvcResult result = perform(LOGIN_RUL, APPLICATION_JSON, map)
 				.andDo(print())
-				.andExpect(status().isOk())
+				.andExpect(status().isUnauthorized())
 				.andReturn();
 
 	}
@@ -143,14 +143,14 @@ public class LoginTest {
 	}
 
 	@Test
-	public void 로그인_데이터형식_JSON이_아니면_200() throws Exception {
+	public void 로그인_데이터형식_JSON이_아니면_400() throws Exception {
 		//given
 		Map<String, String> map = getUsernamePasswordMap(USERNAME, PASSWORD);
 
 		//when, then
 		perform(LOGIN_RUL, APPLICATION_FORM_URLENCODED, map)
 				.andDo(print())
-				.andExpect(status().isOk())
+				.andExpect(status().isUnauthorized())
 				.andReturn();
 	}
 
