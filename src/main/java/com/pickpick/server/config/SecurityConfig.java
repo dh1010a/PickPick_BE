@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pickpick.server.filter.JsonUsernamePasswordAuthenticationFilter;
 import com.pickpick.server.filter.JwtAuthenticationProcessingFilter;
 import com.pickpick.server.repository.UsersRepository;
-import com.pickpick.server.security.UserDetailsServiceImpl;
+import com.pickpick.server.security.service.UserDetailsServiceImpl;
 import com.pickpick.server.security.handler.LoginFailureHandler;
 import com.pickpick.server.security.handler.LoginSuccessJWTProvideHandler;
 import com.pickpick.server.security.service.JwtService;

@@ -8,17 +8,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.domain.Users;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.AddUserRequestDto;
+import com.pickpick.server.dto.UserSignupDto;
 import com.pickpick.server.repository.UsersRepository;
 import com.pickpick.server.security.service.JwtService;
 import com.pickpick.server.service.UsersService;
 import jakarta.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +83,7 @@ public class JwtFilterAuthenticationTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(AddUserRequestDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
+		usersService.save(UserSignupDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

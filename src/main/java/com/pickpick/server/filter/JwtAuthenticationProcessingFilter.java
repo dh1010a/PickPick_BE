@@ -2,7 +2,7 @@ package com.pickpick.server.filter;
 
 import com.pickpick.server.domain.Users;
 import com.pickpick.server.repository.UsersRepository;
-import com.pickpick.server.security.UserDetailsImpl;
+import com.pickpick.server.security.domain.UserDetailsImpl;
 import com.pickpick.server.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,6 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.core.authority.mapping.NullAuthoritiesMapper;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 @RequiredArgsConstructor

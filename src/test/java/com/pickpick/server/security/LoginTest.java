@@ -1,10 +1,9 @@
 package com.pickpick.server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.domain.Users;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.AddUserRequestDto;
+import com.pickpick.server.dto.UserSignupDto;
 import com.pickpick.server.repository.UsersRepository;
 import com.pickpick.server.service.UsersService;
 import jakarta.persistence.EntityManager;
@@ -14,16 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,7 +62,7 @@ public class LoginTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(AddUserRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+		usersService.save(UserSignupDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
