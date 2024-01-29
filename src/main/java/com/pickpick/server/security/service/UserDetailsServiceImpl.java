@@ -1,7 +1,8 @@
-package com.pickpick.server.security;
+package com.pickpick.server.security.service;
 
 import com.pickpick.server.domain.Users;
 import com.pickpick.server.repository.UsersRepository;
+import com.pickpick.server.security.domain.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -2,9 +2,12 @@ package com.pickpick.server.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pickpick.server.filter.JsonUsernamePasswordAuthenticationFilter;
-import com.pickpick.server.security.UserDetailsServiceImpl;
+import com.pickpick.server.filter.JwtAuthenticationProcessingFilter;
+import com.pickpick.server.repository.UsersRepository;
+import com.pickpick.server.security.service.UserDetailsServiceImpl;
 import com.pickpick.server.security.handler.LoginFailureHandler;
 import com.pickpick.server.security.handler.LoginSuccessJWTProvideHandler;
+import com.pickpick.server.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,18 +15,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 @Configuration
 @EnableWebSecurity
@@ -32,6 +31,8 @@ public class SecurityConfig {
 
 	private final UserDetailsServiceImpl userDetailsService;
 	private final ObjectMapper objectMapper;
+	private final UsersRepository usersRepository;
+	private final JwtService jwtService;
 
 	 // 스프링 시큐리티 기능 비활성화
 	@Bean
@@ -60,6 +61,9 @@ public class SecurityConfig {
 				.sessionManagement(session -> session
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		);
+		http
+				.addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class) // 추가 : 커스터마이징 된 필터를 SpringSecurityFilterChain에 등록
+				.addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
@@ -82,14 +86,12 @@ public class SecurityConfig {
 	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {//2 - AuthenticationManager 등록
 		DaoAuthenticationProvider provider = daoAuthenticationProvider();//DaoAuthenticationProvider 사용
-		provider.setPasswordEncoder(passwordEncoder());//PasswordEncoder로는 PasswordEncoderFactories.createDelegatingPasswordEncoder() 사용
-		provider.setUserDetailsService(userDetailsService); //이후 작성할 코드입니다.
 		return new ProviderManager(provider);
 	}
 
     @Bean
     public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler(){
-        return new LoginSuccessJWTProvideHandler();
+        return new LoginSuccessJWTProvideHandler(jwtService, usersRepository);
     }
 
     @Bean
@@ -103,6 +105,13 @@ public class SecurityConfig {
 		jsonUsernamePasswordLoginFilter.setAuthenticationManager(authenticationManager());
 		jsonUsernamePasswordLoginFilter.setAuthenticationSuccessHandler(loginSuccessJWTProvideHandler());
 		jsonUsernamePasswordLoginFilter.setAuthenticationFailureHandler(loginFailureHandler());
+		return jsonUsernamePasswordLoginFilter;
+	}
+
+	@Bean
+	public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter(){
+		JwtAuthenticationProcessingFilter jsonUsernamePasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, usersRepository);
+
 		return jsonUsernamePasswordLoginFilter;
 	}
 

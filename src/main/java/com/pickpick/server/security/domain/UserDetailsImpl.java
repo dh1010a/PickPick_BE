@@ -1,4 +1,4 @@
-package com.pickpick.server.security;
+package com.pickpick.server.security.domain;
 
 import com.pickpick.server.domain.Users;
 import org.springframework.security.core.GrantedAuthority;
