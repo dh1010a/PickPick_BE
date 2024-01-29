@@ -1,6 +1,9 @@
 package com.pickpick.server.service;
 
 
+import com.pickpick.server.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.apiPayload.exception.handler.AlbumHandler;
+import com.pickpick.server.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.converter.AlbumConverter;
 import com.pickpick.server.domain.Album;
 import com.pickpick.server.domain.SharedAlbum;
@@ -14,7 +17,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.integration.IntegrationProperties.Error;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,9 +55,13 @@ public class AlbumService {
     }
 
     public List<List<Long>> findById(Long userId) {
+        Optional<Users> user = usersRepository.findById(userId);
 
-        Users user = usersRepository.findById(userId).orElseThrow();
-        List<SharedAlbum> sharedAlbumList = user.getSharedAlbums();
+        if(!user.isPresent()){
+            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+
+        List<SharedAlbum> sharedAlbumList = user.get().getSharedAlbums();
 
         if (!sharedAlbumList.isEmpty()) {
 
@@ -71,7 +80,7 @@ public class AlbumService {
             return albumId;
 
         } else {
-            return null;
+            throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
         }
     }
 }
