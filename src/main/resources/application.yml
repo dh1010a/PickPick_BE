@@ -7,6 +7,9 @@ spring:
 
   profiles:
     include: jwt #jwt.yml 불러오기
+  h2:
+    console:
+      enabled: true
 
   jpa:
     hibernate:
@@ -22,3 +25,7 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6
+server:
+  servlet:
+    session:
+      timeout: 1800

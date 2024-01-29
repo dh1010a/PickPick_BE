@@ -24,5 +24,9 @@ public class AlbumController {
         return ApiResponse.onSuccess(AlbumConverter.toCreateDTO(albumService.create(request)));
     }
 
+    @GetMapping("/albums/{login_id}")
+    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(@PathVariable("login_id") Long userId){
+        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findById(userId)));
+    }
 
 }

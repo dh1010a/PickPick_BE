@@ -12,10 +12,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Setter;
 
 @Entity
 @Getter
 @Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Album {
@@ -25,6 +27,7 @@ public class Album {
 	@Column(name = "album_id")
 	private Long id;
 
+	@Column(nullable = false, length = 15)
 	private String name;
 
 	private String titleImgUrl;
