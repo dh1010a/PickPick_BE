@@ -57,7 +57,7 @@ public class AlbumService {
     public List<List<Long>> findById(Long userId) {
         Optional<Users> user = usersRepository.findById(userId);
 
-        if(!user.isPresent()){
+        if(user.isEmpty()){
             throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
 

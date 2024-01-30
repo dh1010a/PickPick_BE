@@ -1,9 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/pickpick
-    username: sa
-    password: 1234
-    driver-class-name: org.h2.Driver
 
   profiles:
     include: jwt #jwt.yml 불러오기
@@ -16,7 +11,7 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-        #show_sql: true
+        show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
   devtools:

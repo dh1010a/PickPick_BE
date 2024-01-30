@@ -1,8 +1,10 @@
 package com.pickpick.server.converter;
 
 import com.pickpick.server.apiPayload.ApiResponse;
+import com.pickpick.server.domain.Category;
 import com.pickpick.server.domain.Photo;
 import com.pickpick.server.dto.PhotoResponse;
+import java.util.List;
 
 public class PhotoConverter {
 
@@ -15,6 +17,18 @@ public class PhotoConverter {
     public static PhotoResponse.CreateCategoryDTO toCreateCategoryDTO(Photo photo){
         return PhotoResponse.CreateCategoryDTO.builder()
             .id(photo.getId())
+            .build();
+    }
+
+    public static PhotoResponse.GetPhotosDTO toGetPhotosDTO(List<String> imgUrlList){
+        return PhotoResponse.GetPhotosDTO.builder()
+            .imgUrlList(imgUrlList)
+            .build();
+    }
+
+    public static PhotoResponse.UpdatePhotoDTO toUpdatePhotoDTO(Photo photo){
+        return PhotoResponse.UpdatePhotoDTO.builder()
+            .photoId(photo.getId())
             .build();
     }
 }
