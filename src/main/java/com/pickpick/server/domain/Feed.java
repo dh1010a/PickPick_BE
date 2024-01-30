@@ -56,4 +56,9 @@ public class Feed {
 
     @OneToMany(mappedBy = "feed")
     private List<Photo> photo = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Users user;
+
 }

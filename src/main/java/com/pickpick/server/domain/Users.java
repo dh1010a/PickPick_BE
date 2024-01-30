@@ -68,6 +68,11 @@ public class Users {
 	@OneToMany(mappedBy = "user")
 	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
+	@OneToMany(mappedBy = "user")
+	private List<Feed> feeds = new ArrayList<>();
+
+	@OneToMany(mappedBy = "user")
+	private List<Photo> photos = new ArrayList<>();
 	//== 패스워드 암호화 ==//
 	public void encodePassword(PasswordEncoder passwordEncoder){
 		this.password = passwordEncoder.encode(password);

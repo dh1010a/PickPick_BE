@@ -41,4 +41,8 @@ public class Photo {
 
     @OneToMany(mappedBy = "photo")
     private List<Category> category = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Users user;
 }
