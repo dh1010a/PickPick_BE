@@ -5,6 +5,7 @@ import com.pickpick.server.converter.AlbumConverter;
 import com.pickpick.server.dto.AlbumRequest;
 import com.pickpick.server.dto.AlbumResponse;
 import com.pickpick.server.service.AlbumService;
+import com.pickpick.server.validation.annotation.ExistUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class AlbumController {
     }
 
     @GetMapping("/albums/{login_id}")
-    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(@PathVariable("login_id") Long userId){
+    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(@PathVariable("login_id") @ExistUser Long userId){
         return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findById(userId)));
     }
 

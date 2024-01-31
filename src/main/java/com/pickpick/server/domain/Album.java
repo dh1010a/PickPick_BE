@@ -32,18 +32,19 @@ public class Album {
 
 	private String titleImgUrl;
 
+	@Column(nullable = false)
 	private LocalDate createdAt;
 
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private ShareStatus shareStatus;
 
-	@OneToMany(mappedBy = "album")
+	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
 
-	@OneToMany(mappedBy = "album")
+	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL)
 	private List<Feed> feed = new ArrayList<>();
 
 }

@@ -14,9 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PhotoService {
 
     private final PhotoRepository photoRepository;
@@ -25,7 +27,7 @@ public class PhotoService {
 
     public Photo create(PhotoRequest.CreateDTO request) {
         Photo photo = Photo.builder()
-            .user(usersRepository.findById(request.getUserId()).orElseThrow())
+            .user(usersRepository.findById(request.getUserId()).get())
             .imgUrl(request.getImgUrl())
             .build();
         return photoRepository.save(photo);

@@ -1,6 +1,8 @@
 package com.pickpick.server.domain;
 
 import com.pickpick.server.domain.enums.BookMark;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,6 +32,7 @@ public class Photo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "photo_id")
     private Long id;
 
     private String imgUrl;
@@ -39,7 +42,7 @@ public class Photo {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
-    @OneToMany(mappedBy = "photo")
+    @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
     private List<Category> category = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class AlbumService {
 
     private final AlbumRepository albumRepository;
@@ -83,4 +83,5 @@ public class AlbumService {
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
         }
     }
+
 }

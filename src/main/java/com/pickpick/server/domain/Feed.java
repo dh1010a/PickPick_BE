@@ -2,6 +2,7 @@ package com.pickpick.server.domain;
 
 import com.pickpick.server.domain.Album;
 import com.pickpick.server.domain.enums.BookMark;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,6 +38,7 @@ public class Feed {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "feed_id")
     private Long id;
 
     private String content;
@@ -46,6 +48,7 @@ public class Feed {
     @Enumerated(EnumType.STRING)
     private BookMark bookMark;
 
+    @Column(nullable = false)
     private LocalDate createdAt;
 
     private String imgUrl;
@@ -54,7 +57,7 @@ public class Feed {
     @JoinColumn(name = "album_id")
     private Album album;
 
-    @OneToMany(mappedBy = "feed")
+    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
     private List<Photo> photo = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
