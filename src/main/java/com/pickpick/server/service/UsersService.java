@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class UsersService {
+
 	private final UsersRepository usersRepository;
 
 	public Long save(UserSignupDto userSignupDto) {
@@ -26,5 +27,9 @@ public class UsersService {
 				.shareStatus(userSignupDto.getShareStatus())
 				.build()
 		).getId();
+	}
+
+	public boolean isExistByEmail(String email) {
+		return usersRepository.existsByEmail(email);
 	}
 }
