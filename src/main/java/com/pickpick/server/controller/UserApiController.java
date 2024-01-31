@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -21,8 +20,8 @@ public class UserApiController {
 
 	private final UsersService usersService;
 
-	@PostMapping("/user/signup")
-	public String signUp(@Valid @RequestBody CreateMemberRequest request) throws IOException {
+	@PostMapping("/signup")
+	public String signUp(@Valid @RequestBody CreateMemberRequestDto request) throws IOException {
 		System.out.println(" call controller");
 		UserSignupDto userSignupDto = UserSignupDto.builder()
 				.name(request.getName())
@@ -43,8 +42,39 @@ public class UserApiController {
 		return "회원가입 성공";
 	}
 
+	@PostMapping("/user/isDuplicated")
+	public boolean isDuplicated(@Valid @RequestBody EmailCheckRequestDto request) {
+		if (usersService.isExistByEmail(request.getEmail())) {
+			return true;
+		}
+		return false;
+	}
+
+	@PostMapping("/user/login")
+	public boolean login(@Valid @RequestBody LoginRequestDto request) {
+		if (usersService.isExistByEmail(request.getEmail())) {
+			return true;
+		}
+		return false;
+	}
+
 	@Data
-	static class CreateMemberRequest {
+	static class LoginRequestDto {
+		@NotEmpty
+		private String email;
+		@NotEmpty
+		private String password;
+	}
+
+
+	@Data
+	static class EmailCheckRequestDto {
+		@NotEmpty
+		private String email;
+	}
+
+	@Data
+	static class CreateMemberRequestDto {
 		@NotEmpty
 		private String name;
 		@NotEmpty
