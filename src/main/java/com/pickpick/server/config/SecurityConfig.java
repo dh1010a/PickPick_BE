@@ -42,7 +42,7 @@ public class SecurityConfig {
 	public WebSecurityCustomizer configure() {
 		return (web -> web.ignoring()
 				.requestMatchers(toH2Console())
-				.requestMatchers("/photos/**", "/static/**", "/h2-console/**", "/favicon.ico", "/error", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
+				.requestMatchers("/feeds/**", "/photos/**", "/static/**", "/h2-console/**", "/favicon.ico", "/error", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
 		);
 	}
 

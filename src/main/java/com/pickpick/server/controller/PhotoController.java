@@ -5,6 +5,7 @@ import com.pickpick.server.converter.PhotoConverter;
 import com.pickpick.server.dto.PhotoRequest;
 import com.pickpick.server.dto.PhotoResponse;
 import com.pickpick.server.service.PhotoService;
+import com.pickpick.server.validation.annotation.ExistUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class PhotoController {
     }
 
     @GetMapping("/photos/{login_id}")
-    public ApiResponse<PhotoResponse.GetPhotosDTO> getPhotos(@PathVariable("login_id") Long userId){
+    public ApiResponse<PhotoResponse.GetPhotosDTO> getPhotos(@PathVariable("login_id") @ExistUser Long userId){
         return ApiResponse.onSuccess(PhotoConverter.toGetPhotosDTO(photoService.getPhotos(userId)));
     }
 

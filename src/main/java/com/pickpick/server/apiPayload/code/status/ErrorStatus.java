@@ -17,12 +17,16 @@ public enum ErrorStatus implements BaseErrorCode {
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
 
     //유저 응답
-    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "사용자가 없습니다."),
+    MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "유저가 존재하지 않습니다."),
 
     //앨범 응답
-    ALBUM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ALBUM4001", "앨범이 존재하지 않습니다.");
+    ALBUM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ALBUM4001", "앨범이 존재하지 않습니다."),
 
+    //사진 응답
+    PHOTO_NOT_FOUND(HttpStatus.BAD_REQUEST, "PHOTO4001", "사진이 존재하지 않습니다."),
 
+    //피드 응답
+    FEED_NOT_FOUND(HttpStatus.BAD_REQUEST, "FEED4001", "피드가 존재하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
