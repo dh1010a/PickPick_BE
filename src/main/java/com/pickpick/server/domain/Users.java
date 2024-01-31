@@ -47,7 +47,14 @@ public class Users {
 	@Enumerated(EnumType.STRING)
 	private ShareStatus shareStatus;
 
+	private List<String> friendList;
+
 	private LocalDate createdAt;
+
+	//== 수정 로직 ==/
+	public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
+		return passwordEncoder.matches(checkPassword, getPassword());
+	}
 
 	//== jwt 토큰 추가 ==//
 	@Column(length = 1000)
@@ -61,9 +68,6 @@ public class Users {
 		this.refreshToken = null;
 	}
 
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "users")
-//	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 	@JsonIgnore
 	@OneToMany(mappedBy = "user")
 	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
@@ -73,6 +77,7 @@ public class Users {
 
 	@OneToMany(mappedBy = "user")
 	private List<Photo> photos = new ArrayList<>();
+
 	//== 패스워드 암호화 ==//
 	public void encodePassword(PasswordEncoder passwordEncoder){
 		this.password = passwordEncoder.encode(password);
