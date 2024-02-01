@@ -4,6 +4,7 @@ import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.dto.UserInfoDto;
 import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.service.FriendshipService;
 import com.pickpick.server.service.UsersService;
 import com.pickpick.server.util.SecurityUtil;
 import jakarta.validation.Valid;
@@ -27,6 +28,7 @@ import java.io.IOException;
 public class UserApiController {
 
 	private final UsersService usersService;
+	private final FriendshipService friendshipService;
 
 	@PostMapping("/signup")
 	@ResponseStatus(HttpStatus.OK)
@@ -79,6 +81,34 @@ public class UserApiController {
 	public String deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
 		usersService.deleteUser(userDeleteDto.getPassword(), SecurityUtil.getLoginEmail());
 		return "회원 탈퇴 성공";
+	}
+
+	@PostMapping("/user/friends/{email}")
+	@ResponseStatus(HttpStatus.OK)
+	public String sendFriendshipRequest(@Valid @PathVariable("email") String email) throws Exception {
+		if(!usersService.isExistByEmail(email)) {
+			throw new Exception("대상 회원이 존재하지 않습니다");
+		}
+		friendshipService.createFriendship(email);
+		return "친구추가 성공";
+	}
+
+	@GetMapping("/user/friends/received")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> getWaitingFriendInfo() throws Exception {
+		return friendshipService.getWaitingFriendList(SecurityUtil.getLoginEmail());
+	}
+
+	@GetMapping("/user/friends/sending/{email}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> getSendingFriendInfo(@Valid @PathVariable("email") String email) throws Exception {
+		return friendshipService.getSendingFriendList(email);
+	}
+
+	@PostMapping("/user/friends/approve/{friendshipId}")
+	@ResponseStatus(HttpStatus.OK)
+	public String approveFriendship (@Valid @PathVariable("friendshipId") Long friendshipId) throws Exception{
+		return friendshipService.approveFriendshipRequest(friendshipId);
 	}
 
 
