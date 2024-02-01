@@ -6,6 +6,7 @@ import com.pickpick.server.domain.Users;
 import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.dto.AlbumRequest;
 import com.pickpick.server.dto.AlbumResponse;
+import com.pickpick.server.dto.FeedResponse;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -33,5 +34,9 @@ public class AlbumConverter {
             .build();
     }
 
-
+    public static AlbumResponse.DeleteAlbumDTO toDeleteAlbumDTO(){
+        return AlbumResponse.DeleteAlbumDTO.builder()
+            .result("success")
+            .build();
+    }
 }
