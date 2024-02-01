@@ -22,7 +22,7 @@ public class Users {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id")
+	@Column(name = "users_id")
 	private Long id;
 
 	@Column(nullable = false)
@@ -77,6 +77,9 @@ public class Users {
 
 	@OneToMany(mappedBy = "user")
 	private List<Photo> photos = new ArrayList<>();
+
+	@OneToMany(mappedBy = "users")
+	private List<Friendship> friendshipList = new ArrayList<>();
 
 	//== 패스워드 암호화 ==//
 	public void encodePassword(PasswordEncoder passwordEncoder){
