@@ -6,10 +6,12 @@ import com.pickpick.server.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.converter.AlbumConverter;
 import com.pickpick.server.domain.Album;
+import com.pickpick.server.domain.Feed;
 import com.pickpick.server.domain.SharedAlbum;
 import com.pickpick.server.domain.Users;
 import com.pickpick.server.dto.AlbumRequest;
 import com.pickpick.server.dto.AlbumResponse;
+import com.pickpick.server.dto.FeedRequest;
 import com.pickpick.server.repository.AlbumRepository;
 import com.pickpick.server.repository.SharedAlbumRepository;
 import com.pickpick.server.repository.UsersRepository;
@@ -26,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class AlbumService {
 
     private final AlbumRepository albumRepository;
@@ -54,8 +56,8 @@ public class AlbumService {
 
     }
 
-    public List<List<Long>> findById(Long userId) {
-        Optional<Users> user = usersRepository.findById(userId);
+    public List<List<Long>> findByEmail(String email) {
+        Optional<Users> user = usersRepository.findByEmail(email);
 
         if(user.isEmpty()){
             throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
@@ -82,6 +84,11 @@ public class AlbumService {
         } else {
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
         }
+    }
+
+    public void deleteAlbum(AlbumRequest.DeleteAlbumDTO request){
+        Album album = albumRepository.findById(request.getAlbumId()).orElseThrow();
+        albumRepository.delete(album);
     }
 
 }

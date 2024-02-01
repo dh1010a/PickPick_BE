@@ -29,4 +29,12 @@ public class AlbumResponse {
 
         private List<Long> nonShareAlbumId;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class DeleteAlbumDTO{
+        private String result;
+    }
 }

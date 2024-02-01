@@ -49,8 +49,8 @@ public class PhotoService {
         return photoRepository.save(photo);
     }
 
-    public List<String> getPhotos(Long userId) {
-        Optional<Users> user = usersRepository.findById(userId);
+    public List<String> getPhotos(String email) {
+        Optional<Users> user = usersRepository.findByEmail(email);
 
         if (user.isEmpty()) {
             throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
