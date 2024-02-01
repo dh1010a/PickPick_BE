@@ -105,7 +105,9 @@ public class FriendshipService {
 
 	public String approveFriendshipRequest(Long friendshipId) throws Exception {
 		Friendship friendship = friendshipRepository.findById(friendshipId).orElseThrow(() -> new Exception("친구 요청 조회 실패"));
+		Friendship counterFriendship = friendshipRepository.findById(friendship.getCounterpartId()).orElseThrow(() -> new Exception("친구 요청 조회 실패"));
 		friendship.acceptFriendshipRequest();
+		counterFriendship.acceptFriendshipRequest();
 
 		return "승인 성공";
 	}
