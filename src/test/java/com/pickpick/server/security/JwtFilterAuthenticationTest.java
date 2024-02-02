@@ -10,7 +10,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.dto.UserRequestDto;
 import com.pickpick.server.repository.UsersRepository;
 import com.pickpick.server.security.service.JwtService;
 import com.pickpick.server.service.UsersService;
@@ -83,7 +83,7 @@ public class JwtFilterAuthenticationTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(UserSignupDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
+		usersService.save(UserRequestDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

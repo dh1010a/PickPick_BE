@@ -3,6 +3,7 @@ package com.pickpick.server.controller;
 import com.pickpick.server.apiPayload.ApiResponse;
 import com.pickpick.server.converter.AlbumConverter;
 import com.pickpick.server.converter.FeedConverter;
+import com.pickpick.server.domain.Users;
 import com.pickpick.server.dto.AlbumRequest;
 import com.pickpick.server.dto.AlbumResponse;
 import com.pickpick.server.dto.FeedRequest;
@@ -30,10 +31,9 @@ public class AlbumController {
         return ApiResponse.onSuccess(AlbumConverter.toCreateDTO(albumService.create(request)));
     }
 
-    @GetMapping("/albums")
-    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(){
-        String userEmail = SecurityUtil.getLoginEmail();
-        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findByEmail(userEmail)));
+    @GetMapping("/albums/{login_id}")
+    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(@PathVariable("login_id") @ExistUser Long userId){
+        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findById(userId)));
     }
 
     

@@ -1,9 +1,14 @@
 package com.pickpick.server.controller;
 
+import com.pickpick.server.apiPayload.ApiResponse;
+import com.pickpick.server.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.apiPayload.exception.handler.UserHandler;
+import com.pickpick.server.converter.UserDtoConverter;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.dto.UserInfoDto;
-import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.dto.UserRequestDto;
+import com.pickpick.server.dto.UserRequestDto.UserSignupDto;
 import com.pickpick.server.service.FriendshipService;
 import com.pickpick.server.service.UsersService;
 import com.pickpick.server.util.SecurityUtil;
@@ -32,25 +37,10 @@ public class UserApiController {
 
 	@PostMapping("/signup")
 	@ResponseStatus(HttpStatus.OK)
-	public String signUp(@Valid @RequestBody CreateMemberRequestDto request) throws IOException {
-		System.out.println(" call controller");
-		UserSignupDto userSignupDto = UserSignupDto.builder()
-				.name(request.getName())
-				.email(request.getEmail())
-				.phoneNum(request.getPhoneNum())
-				.password(request.getPassword())
-				.imgUrl(request.getImgUrl())
-				.publicStatus(PublicStatus.PUBLIC)
-				.shareStatus(ShareStatus.NON_SHAREABLE)
-				.build();
-		if (request.getPublicStatus().equals("HIDDEN")) {
-			userSignupDto.setPublicStatus(PublicStatus.HIDDEN);
-		}
-		if (request.getShareStatus().equals("NON_SHAREABLE")) {
-			userSignupDto.setShareStatus(ShareStatus.SHAREABLE);
-		}
+	public ApiResponse<String> signUp(@Valid @RequestBody UserRequestDto.CreateUserRequestDto request) throws IOException {
+		UserRequestDto.UserSignupDto userSignupDto = UserDtoConverter.convertToUserSignupDto(request);
 		usersService.save(userSignupDto);
-		return "회원가입 성공";
+		return ApiResponse.onSuccess("가입 email: " + userSignupDto.getEmail());
 	}
 
 	@PostMapping("/user/isDuplicated")
@@ -63,40 +53,37 @@ public class UserApiController {
 	}
 
 	@GetMapping("/user/{email}")
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity getUserInfo(@Valid @PathVariable("email") String email) throws Exception{
+	public ApiResponse<UserInfoDto> getUserInfo(@Valid @PathVariable("email") String email) {
 		UserInfoDto userInfoDto = usersService.getUserInfo(email);
-		return new ResponseEntity(userInfoDto, HttpStatus.OK);
+		return ApiResponse.onSuccess(userInfoDto);
 	}
 
 	@GetMapping("/user/myInfo")
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity getMyInfo() throws Exception{
+	public ApiResponse<UserInfoDto> getMyInfo() {
 		UserInfoDto userInfoDto = usersService.getMyInfo();
-		return new ResponseEntity(userInfoDto, HttpStatus.OK);
+		return ApiResponse.onSuccess(userInfoDto);
 	}
 
 	@DeleteMapping("/user")
-	@ResponseStatus(HttpStatus.OK)
-	public String deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
+	public ApiResponse<String> deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
 		usersService.deleteUser(userDeleteDto.getPassword(), SecurityUtil.getLoginEmail());
-		return "회원 탈퇴 성공";
+		return ApiResponse.onSuccess("회원 탈퇴에 성공하였습니다.");
 	}
 
 	@PostMapping("/user/friends/{email}")
 	@ResponseStatus(HttpStatus.OK)
-	public String sendFriendshipRequest(@Valid @PathVariable("email") String email) throws Exception {
+	public ApiResponse<String> sendFriendshipRequest(@Valid @PathVariable("email") String email) throws Exception {
 		if(!usersService.isExistByEmail(email)) {
-			throw new Exception("대상 회원이 존재하지 않습니다");
+			throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
 		}
 		friendshipService.createFriendship(email);
-		return "친구추가 성공";
+		return ApiResponse.onSuccess(email + " 회원에게 친구 요청 전송 성공하였습니다.");
 	}
 
 	@GetMapping("/user/friends/received")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<?> getWaitingFriendInfo() throws Exception {
-		return friendshipService.getWaitingFriendList(SecurityUtil.getLoginEmail());
+		return friendshipService.getWaitingFriendList();
 	}
 
 	@GetMapping("/user/friends/sending/{email}")
@@ -132,18 +119,4 @@ public class UserApiController {
 		private String email;
 	}
 
-	@Data
-	static class CreateMemberRequestDto {
-		@NotEmpty
-		private String name;
-		@NotEmpty
-		private String email;
-		@NotEmpty
-		private String password;
-		@NotEmpty
-		private String phoneNum;
-		private String imgUrl;
-		private String publicStatus;
-		private String shareStatus;
-	}
 }

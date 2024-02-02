@@ -2,15 +2,16 @@ package com.pickpick.server.service;
 
 import static com.pickpick.server.config.SecurityConfig.passwordEncoder;
 
+import com.pickpick.server.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.domain.Users;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.dto.UserInfoDto;
-import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.dto.UserRequestDto;
 import com.pickpick.server.repository.UsersRepository;
 import com.pickpick.server.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,15 +24,15 @@ public class UsersService {
 	private final UsersRepository usersRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public Long save(UserSignupDto userSignupDto) {
+	public Long save(UserRequestDto.UserSignupDto userRequestDto) {
 		return usersRepository.save(Users.builder()
-				.name(userSignupDto.getName())
-				.email(userSignupDto.getEmail())
-				.password(passwordEncoder().encode(userSignupDto.getPassword()))
-				.phoneNum(userSignupDto.getPhoneNum())
-				.imgUrl(userSignupDto.getImgUrl())
-				.publicStatus(userSignupDto.getPublicStatus())
-				.shareStatus(userSignupDto.getShareStatus())
+				.name(userRequestDto.getName())
+				.email(userRequestDto.getEmail())
+				.password(passwordEncoder().encode(userRequestDto.getPassword()))
+				.phoneNum(userRequestDto.getPhoneNum())
+				.imgUrl(userRequestDto.getImgUrl())
+				.publicStatus(userRequestDto.getPublicStatus())
+				.shareStatus(userRequestDto.getShareStatus())
 				.build()
 		).getId();
 	}
@@ -40,8 +41,8 @@ public class UsersService {
 		return usersRepository.existsByEmail(email);
 	}
 
-	public UserInfoDto getUserInfo(String email) throws Exception {
-		Users users = usersRepository.findByEmail(email).orElseThrow(() -> new Exception("존재하지 않는 회원입니다"));
+	public UserInfoDto getUserInfo(String email) {
+		Users users = usersRepository.findByEmail(email).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return UserInfoDto.builder()
 				.name(users.getName())
 				.email(users.getEmail())
@@ -50,8 +51,8 @@ public class UsersService {
 				.build();
 	}
 
-	public UserInfoDto getMyInfo() throws Exception {
-		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다"));
+	public UserInfoDto getMyInfo() {
+		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return UserInfoDto.builder()
 				.name(users.getName())
 				.email(users.getEmail())
@@ -60,20 +61,20 @@ public class UsersService {
 				.build();
 	}
 
-	public boolean isUserShareable(String email) throws Exception {
-		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다"));
+	public boolean isUserShareable(String email) {
+		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return users.getShareStatus().equals(ShareStatus.SHAREABLE);
 	}
 
-	public boolean isUserPublic(String email) throws Exception {
-		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다"));
+	public boolean isUserPublic(String email) {
+		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return users.getPublicStatus().equals(PublicStatus.PUBLIC);
 	}
 
-	public void deleteUser(String checkPassword, String email) throws Exception{
-		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new Exception("존재하지 않는 회원입니다"));
+	public void deleteUser(String checkPassword, String email) {
+		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		if(!users.matchPassword(passwordEncoder, checkPassword) ) {
-			throw new Exception("비밀번호가 일치하지 않습니다");
+			throw new UserHandler(ErrorStatus.MEMBER_PASSWORD_NOT_MATCH);
 		}
 		usersRepository.delete(users);
 	}

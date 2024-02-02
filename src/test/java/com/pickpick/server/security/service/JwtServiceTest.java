@@ -9,7 +9,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.pickpick.server.domain.Users;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.dto.UserRequestDto;
 import com.pickpick.server.repository.UsersRepository;
 import com.pickpick.server.service.UsersService;
 import jakarta.persistence.EntityManager;
@@ -55,7 +55,7 @@ class JwtServiceTest {
 
 	@BeforeEach
 	public void init() {
-		usersService.save(UserSignupDto.builder().name("도현").email(email).password("1234").phoneNum("01054888")
+		usersService.save(UserRequestDto.builder().name("도현").email(email).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

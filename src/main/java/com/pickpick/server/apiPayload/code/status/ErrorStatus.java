@@ -18,6 +18,8 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //유저 응답
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "유저가 존재하지 않습니다."),
+    MEMBER_PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "MEMBER4002", "유저가 존재하지 않습니다."),
+
 
     //앨범 응답
     ALBUM_NOT_FOUND(HttpStatus.BAD_REQUEST, "ALBUM4001", "앨범이 존재하지 않습니다."),

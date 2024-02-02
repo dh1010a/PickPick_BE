@@ -47,7 +47,6 @@ public class Users {
 	@Enumerated(EnumType.STRING)
 	private ShareStatus shareStatus;
 
-	//private List<String> friendList;
 
 	private LocalDate createdAt;
 
