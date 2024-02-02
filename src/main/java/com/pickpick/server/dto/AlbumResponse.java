@@ -25,9 +25,9 @@ public class AlbumResponse {
     @AllArgsConstructor
     public static class GetAlbumDTO {
 
-        private List<Long> shareAlbumId;
+        private List<Album> shareAlbum;
 
-        private List<Long> nonShareAlbumId;
+        private List<Album> nonShareAlbum;
     }
 
     @Builder

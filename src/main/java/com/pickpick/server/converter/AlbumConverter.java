@@ -27,10 +27,10 @@ public class AlbumConverter {
             .build();
     }
 
-    public static AlbumResponse.GetAlbumDTO toGetAlbumDTO(List<List<Long>> albumId){
+    public static AlbumResponse.GetAlbumDTO toGetAlbumDTO(List<List<Album>> album){
         return AlbumResponse.GetAlbumDTO.builder()
-            .shareAlbumId(albumId.get(0))
-            .nonShareAlbumId(albumId.get(1))
+            .shareAlbum(album.get(0))
+            .nonShareAlbum(album.get(1))
             .build();
     }
 

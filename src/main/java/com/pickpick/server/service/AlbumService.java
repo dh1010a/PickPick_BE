@@ -56,7 +56,7 @@ public class AlbumService {
 
     }
 
-    public List<List<Long>> findByEmail(String email) {
+    public List<List<Album>> findByEmail(String email) {
         Optional<Users> user = usersRepository.findByEmail(email);
 
         if(user.isEmpty()){
@@ -67,19 +67,19 @@ public class AlbumService {
 
         if (!sharedAlbumList.isEmpty()) {
 
-            List<Long> shareAlbumId = new ArrayList<>();
-            List<Long> nonShareAlbumId = new ArrayList<>();
+            List<Album> shareAlbum = new ArrayList<>();
+            List<Album> nonShareAlbum = new ArrayList<>();
             for (SharedAlbum sharedAlbum : sharedAlbumList) {
                 if (Objects.equals(sharedAlbum.getAlbum().getShareStatus().toString(), "SHAREABLE")) {
-                    shareAlbumId.add(sharedAlbum.getAlbum().getId());
+                    shareAlbum.add(sharedAlbum.getAlbum());
                 } else {
-                  nonShareAlbumId.add(sharedAlbum.getAlbum().getId());
+                  nonShareAlbum.add(sharedAlbum.getAlbum());
                 }
             }
-            List<List<Long>> albumId = new ArrayList<>();
-            albumId.add(shareAlbumId);
-            albumId.add(nonShareAlbumId);
-            return albumId;
+            List<List<Album>> albums = new ArrayList<>();
+            albums.add(shareAlbum);
+            albums.add(nonShareAlbum);
+            return albums;
 
         } else {
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
