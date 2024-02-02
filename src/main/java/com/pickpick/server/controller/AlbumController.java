@@ -36,6 +36,7 @@ public class AlbumController {
         return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findById(userId)));
     }
 
+    
     @DeleteMapping("/album/delete")
     public ApiResponse<AlbumResponse.DeleteAlbumDTO> deleteFeed(@RequestBody @Valid AlbumRequest.DeleteAlbumDTO request){
         albumService.deleteAlbum(request);
