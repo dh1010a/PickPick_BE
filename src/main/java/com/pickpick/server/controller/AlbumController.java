@@ -31,9 +31,10 @@ public class AlbumController {
         return ApiResponse.onSuccess(AlbumConverter.toCreateDTO(albumService.create(request)));
     }
 
-    @GetMapping("/albums/{login_id}")
-    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(@PathVariable("login_id") @ExistUser Long userId){
-        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findById(userId)));
+    @GetMapping("/albums")
+    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(){
+        String userEmail = SecurityUtil.getLoginEmail();
+        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findByEmail(userEmail)));
     }
 
     
