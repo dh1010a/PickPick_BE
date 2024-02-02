@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
@@ -34,6 +35,7 @@ import org.hibernate.annotations.DynamicInsert;
 @Builder
 @Setter
 @DynamicInsert
+@DynamicUpdate
 public class Feed {
 
     @Id
