@@ -9,7 +9,8 @@ import jakarta.validation.constraints.Size;
 import java.util.List;
 import lombok.Getter;
 
-public class AlbumRequest{
+public class AlbumRequest {
+
     @Getter
     public static class CreateDTO {
 
@@ -27,8 +28,24 @@ public class AlbumRequest{
     }
 
     @Getter
-    public static class DeleteAlbumDTO{
+    public static class DeleteAlbumDTO {
+
         @ExistAlbum
         private Long albumId;
+    }
+
+    @Getter
+    public static class UpdateAlbumDTO {
+
+        @ExistAlbum
+        private Long albumId;
+
+        @Size(min = 0, max = 15)
+        private String title;
+
+        @ExistUsers
+        private List<Long> userId;
+
+        private String imgUrl;
     }
 }

@@ -91,4 +91,20 @@ public class AlbumService {
         albumRepository.delete(album);
     }
 
+    public Long updateAlbum(AlbumRequest.UpdateAlbumDTO request){
+        Album album = albumRepository.findById(request.getAlbumId()).orElseThrow();
+        album.setName(request.getTitle());
+        album.setTitleImgUrl(request.getImgUrl());
+        List<SharedAlbum> sharedAlbumList = sharedAlbumRepository.findByAlbum(album);
+        sharedAlbumRepository.deleteAll(sharedAlbumList);
+        for(Long userId : request.getUserId()){
+            Users user = usersRepository.findById(userId).orElseThrow();
+            SharedAlbum sharedAlbum = SharedAlbum.builder()
+                    .album(album)
+                        .user(user)
+                            .build();
+            sharedAlbumRepository.save(sharedAlbum);
+        }
+        return request.getAlbumId();
+    }
 }
