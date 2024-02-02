@@ -37,4 +37,12 @@ public class AlbumResponse {
     public static class DeleteAlbumDTO{
         private String result;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UpdateAlbumDTO{
+        private Long albumId;
+    }
 }

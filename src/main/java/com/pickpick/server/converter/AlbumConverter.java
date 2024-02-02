@@ -39,4 +39,10 @@ public class AlbumConverter {
             .result("success")
             .build();
     }
+
+    public static AlbumResponse.UpdateAlbumDTO toUpdateAlbumDTO(Long albumId){
+        return AlbumResponse.UpdateAlbumDTO.builder()
+            .albumId(albumId)
+            .build();
+    }
 }
