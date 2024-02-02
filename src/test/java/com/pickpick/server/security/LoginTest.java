@@ -3,7 +3,7 @@ package com.pickpick.server.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.dto.UserRequestDto;
 import com.pickpick.server.repository.UsersRepository;
 import com.pickpick.server.service.UsersService;
 import jakarta.persistence.EntityManager;
@@ -62,7 +62,7 @@ public class LoginTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(UserSignupDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+		usersService.save(UserRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
@@ -94,6 +94,7 @@ public class LoginTest {
 				.andDo(print())
 				.andExpect(status().isOk())
 				.andReturn();
+
 
 	}
 

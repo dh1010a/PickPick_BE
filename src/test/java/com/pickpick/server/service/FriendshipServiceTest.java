@@ -1,6 +1,5 @@
 package com.pickpick.server.service;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -9,7 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pickpick.server.domain.Users;
 import com.pickpick.server.domain.enums.PublicStatus;
 import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserSignupDto;
+import com.pickpick.server.dto.UserRequestDto;
 import com.pickpick.server.repository.UsersRepository;
 import jakarta.persistence.EntityManager;
 import java.util.HashMap;
@@ -62,9 +61,9 @@ class FriendshipServiceTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(UserSignupDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+		usersService.save(UserRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
-		usersService.save(UserSignupDto.builder().name("도현2").email("dh1010a2@naver.com").password("1234").phoneNum("01054888")
+		usersService.save(UserRequestDto.builder().name("도현2").email("dh1010a2@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

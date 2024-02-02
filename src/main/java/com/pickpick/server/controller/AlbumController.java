@@ -1,10 +1,13 @@
 package com.pickpick.server.controller;
 
 import com.pickpick.server.apiPayload.ApiResponse;
+import com.pickpick.server.config.SecurityConfig;
 import com.pickpick.server.converter.AlbumConverter;
+import com.pickpick.server.domain.Users;
 import com.pickpick.server.dto.AlbumRequest;
 import com.pickpick.server.dto.AlbumResponse;
 import com.pickpick.server.service.AlbumService;
+import com.pickpick.server.util.SecurityUtil;
 import com.pickpick.server.validation.annotation.ExistUser;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
