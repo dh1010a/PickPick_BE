@@ -13,7 +13,8 @@ public class UserDtoConverter {
 				.email(request.getEmail())
 				.phoneNum(request.getPhoneNum())
 				.password(request.getPassword())
-				.imgUrl(request.getImgUrl())
+//				.imgUrl(request.getImgUrl())
+				.uploadImg(request.getUploadImg())
 				.publicStatus(PublicStatus.PUBLIC)
 				.shareStatus(ShareStatus.NON_SHAREABLE)
 				.build();

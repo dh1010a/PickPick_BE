@@ -4,11 +4,8 @@ import com.pickpick.server.apiPayload.ApiResponse;
 import com.pickpick.server.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.converter.UserDtoConverter;
-import com.pickpick.server.domain.enums.PublicStatus;
-import com.pickpick.server.domain.enums.ShareStatus;
 import com.pickpick.server.dto.UserInfoDto;
 import com.pickpick.server.dto.UserRequestDto;
-import com.pickpick.server.dto.UserRequestDto.UserSignupDto;
 import com.pickpick.server.service.FriendshipService;
 import com.pickpick.server.service.UsersService;
 import com.pickpick.server.util.SecurityUtil;
@@ -37,7 +34,7 @@ public class UserApiController {
 
 	@PostMapping("/signup")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<String> signUp(@Valid @RequestBody UserRequestDto.CreateUserRequestDto request) throws IOException {
+	public ApiResponse<String> signUp(@Valid @RequestBody UserRequestDto.CreateUserRequestDto request) throws Exception {
 		UserRequestDto.UserSignupDto userSignupDto = UserDtoConverter.convertToUserSignupDto(request);
 		usersService.save(userSignupDto);
 		return ApiResponse.onSuccess("가입 email: " + userSignupDto.getEmail());
@@ -62,6 +59,12 @@ public class UserApiController {
 	public ApiResponse<UserInfoDto> getMyInfo() {
 		UserInfoDto userInfoDto = usersService.getMyInfo();
 		return ApiResponse.onSuccess(userInfoDto);
+	}
+
+	@PostMapping("/user/update")
+	public ApiResponse<String> updateUserInfo(@Valid @RequestBody UserRequestDto.UpdateUserRequestDto userRequestDto) {
+		usersService.updateUserInfo(userRequestDto);
+		return ApiResponse.onSuccess("회원정보 수정에 성공하였습니다.");
 	}
 
 	@DeleteMapping("/user")

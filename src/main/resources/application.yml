@@ -6,6 +6,7 @@ spring:
     console:
       enabled: true
 
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -24,3 +25,7 @@ server:
   servlet:
     session:
       timeout: 1800
+
+
+file:
+  dir: C:\Users\dh101\Desktop\profile
