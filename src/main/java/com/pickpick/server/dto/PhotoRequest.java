@@ -34,6 +34,8 @@ public class PhotoRequest {
     public static class UpdatePhotoDTO {
         @ExistPhoto
         private Long photoId;
+
+        @NotNull
         private String imgUrl;
     }
 }

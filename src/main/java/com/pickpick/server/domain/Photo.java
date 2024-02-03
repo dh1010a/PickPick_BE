@@ -41,7 +41,6 @@ public class Photo {
 
     private String imgUrl;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
     private Feed feed;

@@ -25,7 +25,6 @@ public class AlbumExistValidator implements ConstraintValidator<ExistAlbum, Long
         if(!isValid){
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(ErrorStatus.ALBUM_NOT_FOUND.toString()).addConstraintViolation();
-
         }
         return isValid;
     }

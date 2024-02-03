@@ -41,11 +41,14 @@ public class AlbumService {
         Album album = AlbumConverter.toAlbum(request);
 
         request.getUserId().forEach(userId -> {
-            Users user = usersRepository.findById(userId).get();
+            Optional<Users> user = usersRepository.findById(userId);
+            if(user.isEmpty()){
+                throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+            }
 
             //sharedAlbum 생성
             SharedAlbum sharedAlbum = SharedAlbum.builder()
-                .user(user)
+                .user(user.get())
                 .album(album)
                 .build();
 
@@ -59,7 +62,7 @@ public class AlbumService {
     public List<List<Album>> findByEmail(String email) {
         Optional<Users> user = usersRepository.findByEmail(email);
 
-        if(user.isEmpty()){
+        if (user.isEmpty()) {
             throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
 
@@ -70,10 +73,11 @@ public class AlbumService {
             List<Album> shareAlbum = new ArrayList<>();
             List<Album> nonShareAlbum = new ArrayList<>();
             for (SharedAlbum sharedAlbum : sharedAlbumList) {
-                if (Objects.equals(sharedAlbum.getAlbum().getShareStatus().toString(), "SHAREABLE")) {
+                if (Objects.equals(sharedAlbum.getAlbum().getShareStatus().toString(),
+                    "SHAREABLE")) {
                     shareAlbum.add(sharedAlbum.getAlbum());
                 } else {
-                  nonShareAlbum.add(sharedAlbum.getAlbum());
+                    nonShareAlbum.add(sharedAlbum.getAlbum());
                 }
             }
             List<List<Album>> albums = new ArrayList<>();
@@ -82,27 +86,36 @@ public class AlbumService {
             return albums;
 
         } else {
-            throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
+            return null;
         }
     }
 
-    public void deleteAlbum(AlbumRequest.DeleteAlbumDTO request){
-        Album album = albumRepository.findById(request.getAlbumId()).orElseThrow();
-        albumRepository.delete(album);
+    public void deleteAlbum(AlbumRequest.DeleteAlbumDTO request) {
+        Optional<Album> album = albumRepository.findById(request.getAlbumId());
+        if(album.isEmpty()){
+            throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
+        }
+        albumRepository.delete(album.get());
     }
 
-    public Long updateAlbum(AlbumRequest.UpdateAlbumDTO request){
-        Album album = albumRepository.findById(request.getAlbumId()).orElseThrow();
-        album.setName(request.getTitle());
-        album.setTitleImgUrl(request.getImgUrl());
-        List<SharedAlbum> sharedAlbumList = sharedAlbumRepository.findByAlbum(album);
+    public Long updateAlbum(AlbumRequest.UpdateAlbumDTO request) {
+        Optional<Album> album = albumRepository.findById(request.getAlbumId());
+        if(album.isEmpty()){
+            throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
+        }
+        album.get().setName(request.getTitle());
+        album.get().setTitleImgUrl(request.getImgUrl());
+        List<SharedAlbum> sharedAlbumList = sharedAlbumRepository.findByAlbum(album.get());
         sharedAlbumRepository.deleteAll(sharedAlbumList);
-        for(Long userId : request.getUserId()){
-            Users user = usersRepository.findById(userId).orElseThrow();
+        for (Long userId : request.getUserId()) {
+            Optional<Users> user = usersRepository.findById(userId);
+            if(user.isEmpty()){
+                throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+            }
             SharedAlbum sharedAlbum = SharedAlbum.builder()
-                    .album(album)
-                        .user(user)
-                            .build();
+                .album(album.get())
+                .user(user.get())
+                .build();
             sharedAlbumRepository.save(sharedAlbum);
         }
         return request.getAlbumId();

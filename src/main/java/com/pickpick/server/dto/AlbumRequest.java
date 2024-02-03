@@ -14,10 +14,9 @@ public class AlbumRequest {
     @Getter
     public static class CreateDTO {
 
-        @Size(max = 15)
+        @Size(min = 0, max = 15)
         private String name;
 
-        @NotBlank
         private String titleImgUrl;
 
         @NotNull
