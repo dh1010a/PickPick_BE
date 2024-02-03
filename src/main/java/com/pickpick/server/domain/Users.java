@@ -51,6 +51,23 @@ public class Users {
 	private LocalDate createdAt;
 
 	//== 수정 로직 ==/
+
+	public void updateName(String name) {
+		this.name = name;
+	}
+
+	public void updateImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
+
+	public void updatePublicStatus(PublicStatus status) {
+		this.publicStatus = status;
+	}
+
+	public void updateShareStatus(ShareStatus status) {
+		this.shareStatus = status;
+	}
+
 	public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
 		return passwordEncoder.matches(checkPassword, getPassword());
 	}
