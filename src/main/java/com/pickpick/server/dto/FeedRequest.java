@@ -1,11 +1,9 @@
 package com.pickpick.server.dto;
 
-import com.pickpick.server.domain.Photo;
 import com.pickpick.server.validation.annotation.ExistAlbum;
 import com.pickpick.server.validation.annotation.ExistFeed;
 import com.pickpick.server.validation.annotation.ExistPhotos;
 import com.pickpick.server.validation.annotation.ExistUser;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 
@@ -31,11 +29,13 @@ public class FeedRequest {
     public static class UpdateFeedDTO{
         @ExistFeed
         private Long feedId;
+
         private String content;
     }
 
     @Getter
     public static class DeleteFeedDTO{
+
         @ExistFeed
         private Long feedId;
     }

@@ -1,9 +1,10 @@
 package com.pickpick.server.service;
 
-import com.pickpick.server.apiPayload.ApiResponse;
 import com.pickpick.server.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.apiPayload.exception.handler.AlbumHandler;
-import com.pickpick.server.converter.FeedConverter;
+import com.pickpick.server.apiPayload.exception.handler.FeedHandler;
+import com.pickpick.server.apiPayload.exception.handler.PhotoHandler;
+import com.pickpick.server.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.domain.Album;
 import com.pickpick.server.domain.Feed;
 import com.pickpick.server.domain.Photo;
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class FeedService {
 
     private final PhotoRepository photoRepository;
@@ -32,28 +33,37 @@ public class FeedService {
     private final UsersRepository usersRepository;
 
     public Feed create(FeedRequest.CreateDTO request){
-        Album album = albumRepository.findById(request.getAlbumId()).orElseThrow();
-        Users user = usersRepository.findById(request.getUserId()).orElseThrow();
-
+        Optional<Album> album = albumRepository.findById(request.getAlbumId());
+        if(album.isEmpty()){
+            throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
+        }
+        Optional<Users> user = usersRepository.findById(request.getUserId());
+        if(user.isEmpty()){
+            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        }
         List<Photo> photoList = new ArrayList<>();
 
         Feed feed = Feed.builder()
-            .user(user)
-            .album(album)
+            .user(user.get())
+            .album(album.get())
             .content(request.getContent())
             .createdAt(LocalDate.now())
             .build();
 
         for(Long photoId : request.getPhotoIdList()){
-            Photo photo = photoRepository.findById(photoId).orElseThrow();
-            photo.setFeed(feed);
-            photoList.add(photo);
+            Optional<Photo> photo = photoRepository.findById(photoId);
+            if(photo.isEmpty()){
+                throw new PhotoHandler(ErrorStatus.PHOTO_NOT_FOUND);
+            }
+            photo.get().setFeed(feed);
+            photoList.add(photo.get());
         }
 
         feed.setPhoto(photoList);
         return feedRepository.save(feed);
     }
 
+    //줘야 하는 값 고민
     public List<Long> getFeed(Long albumId){
         Optional<Album> album = albumRepository.findById(albumId);
         if(album.isEmpty()){
@@ -69,13 +79,20 @@ public class FeedService {
     }
 
     public Feed updateFeed(FeedRequest.UpdateFeedDTO request){
-        Feed feed = feedRepository.findById(request.getFeedId()).orElseThrow();
-        feed.setContent(request.getContent());
-        return feedRepository.save(feed);
+        Optional<Feed> feed = feedRepository.findById(request.getFeedId());
+        if(feed.isEmpty()){
+            throw new FeedHandler(ErrorStatus.FEED_NOT_FOUND);
+        }
+
+        feed.get().setContent(request.getContent());
+        return feedRepository.save(feed.get());
     }
 
     public void deleteFeed(FeedRequest.DeleteFeedDTO request){
-        Feed feed = feedRepository.findById(request.getFeedId()).orElseThrow();
-        feedRepository.delete(feed);
+        Optional<Feed> feed = feedRepository.findById(request.getFeedId());
+        if(feed.isEmpty()){
+            throw new FeedHandler(ErrorStatus.FEED_NOT_FOUND);
+        }
+        feedRepository.delete(feed.get());
     }
 }
