@@ -31,8 +31,8 @@ public class PhotoController {
 
     @GetMapping("/photos")
     public ApiResponse<PhotoResponse.GetPhotosDTO> getPhotos(){
-        String userEmail = SecurityUtil.getLoginEmail();
-        return ApiResponse.onSuccess(PhotoConverter.toGetPhotosDTO(photoService.getPhotos(userEmail)));
+        String memberEmail = SecurityUtil.getLoginEmail();
+        return ApiResponse.onSuccess(PhotoConverter.toGetPhotosDTO(photoService.getPhotos(memberEmail)));
     }
 
     @PostMapping("/photo/update")

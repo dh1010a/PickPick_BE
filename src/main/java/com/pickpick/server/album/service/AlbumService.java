@@ -3,7 +3,7 @@ package com.pickpick.server.album.service;
 
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
-import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
+import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.converter.AlbumConverter;
 import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.album.domain.SharedAlbum;
@@ -37,7 +37,7 @@ public class AlbumService {
         request.getUserId().forEach(userId -> {
             Optional<Member> user = memberRepository.findById(userId);
             if(user.isEmpty()){
-                throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+                throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
 
             //sharedAlbum 생성
@@ -57,7 +57,7 @@ public class AlbumService {
         Optional<Member> user = memberRepository.findByEmail(email);
 
         if (user.isEmpty()) {
-            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
 
         List<SharedAlbum> sharedAlbumList = user.get().getSharedAlbums();
@@ -104,7 +104,7 @@ public class AlbumService {
         for (Long userId : request.getUserId()) {
             Optional<Member> user = memberRepository.findById(userId);
             if(user.isEmpty()){
-                throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+                throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
             SharedAlbum sharedAlbum = SharedAlbum.builder()
                 .album(album.get())

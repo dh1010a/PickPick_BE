@@ -3,12 +3,13 @@ package com.pickpick.server.converter;
 
 import com.pickpick.server.member.domain.enums.PublicStatus;
 import com.pickpick.server.member.domain.enums.ShareStatus;
-import com.pickpick.server.member.dto.MemberRequestDto;
+import com.pickpick.server.member.dto.MemberRequestDto.CreateMemberRequestDto;
+import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 
 public class MemberDtoConverter {
 
-	public static MemberRequestDto.UserSignupDto convertToUserSignupDto(MemberRequestDto.CreateUserRequestDto request) {
-		MemberRequestDto.UserSignupDto userSignupDto = MemberRequestDto.UserSignupDto.builder()
+	public static MemberSignupDto convertToUserSignupDto(CreateMemberRequestDto request) {
+		MemberSignupDto memberSignupDto = MemberSignupDto.builder()
 				.name(request.getName())
 				.email(request.getEmail())
 				.phoneNum(request.getPhoneNum())
@@ -19,11 +20,11 @@ public class MemberDtoConverter {
 				.shareStatus(ShareStatus.NON_SHAREABLE)
 				.build();
 		if (request.getPublicStatus().equals("HIDDEN")) {
-			userSignupDto.setPublicStatus(PublicStatus.HIDDEN);
+			memberSignupDto.setPublicStatus(PublicStatus.HIDDEN);
 		}
 		if (request.getShareStatus().equals("NON_SHAREABLE")) {
-			userSignupDto.setShareStatus(ShareStatus.SHAREABLE);
+			memberSignupDto.setShareStatus(ShareStatus.SHAREABLE);
 		}
-		return userSignupDto;
+		return memberSignupDto;
 	}
 }

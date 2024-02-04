@@ -30,7 +30,7 @@ public class Friendship {
 	@JoinColumn(name = "member_id")
 	private Member member;
 
-	private String userEmail;
+	private String memberEmail;
 	private String friendEmail;
 	private FriendshipStatus status;
 	private boolean isFrom;
