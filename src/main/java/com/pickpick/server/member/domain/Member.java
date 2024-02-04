@@ -3,6 +3,7 @@ package com.pickpick.server.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickpick.server.feed.domain.Feed;
+import com.pickpick.server.global.common.BaseEntity;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.album.domain.SharedAlbum;
 import com.pickpick.server.member.domain.enums.PublicStatus;
@@ -21,7 +22,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "Member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +51,6 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private ShareStatus shareStatus;
 
-
-	private LocalDate createdAt;
 
 	//== 수정 로직 ==/
 
