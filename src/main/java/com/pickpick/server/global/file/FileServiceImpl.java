@@ -21,7 +21,7 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public String save(MultipartFile multipartFile) throws FileException {
-		String filePath = fileDir + UUID.randomUUID();
+		String filePath = fileDir + UUID.randomUUID() + multipartFile.getOriginalFilename();
 		try {
 			multipartFile.transferTo(new File(filePath));
 		} catch (IOException e) {

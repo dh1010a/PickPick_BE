@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class UsersService {
 				.shareStatus(userRequestDto.getShareStatus())
 				.build();
 
-		userRequestDto.getUploadImg().ifPresent(file -> users.updateImgUrl(fileService.save(file)));
+//		userRequestDto.getUploadImg().ifPresent(file -> users.updateImgUrl(fileService.save(file)));
 
 		Long id = usersRepository.save(users).getId();
 
@@ -69,6 +70,11 @@ public class UsersService {
 				.imgUrl(users.getImgUrl())
 				.phoneNum(users.getPhoneNum())
 				.build();
+	}
+
+	public void uploadImg(MultipartFile file) {
+		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		users.updateImgUrl(fileService.save(file));
 	}
 
 	public void updateUserInfo(UserRequestDto.UpdateUserRequestDto dto) {
