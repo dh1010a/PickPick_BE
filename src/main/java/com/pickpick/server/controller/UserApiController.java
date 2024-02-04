@@ -14,6 +14,7 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -38,6 +40,12 @@ public class UserApiController {
 		UserRequestDto.UserSignupDto userSignupDto = UserDtoConverter.convertToUserSignupDto(request);
 		usersService.save(userSignupDto);
 		return ApiResponse.onSuccess("가입 email: " + userSignupDto.getEmail());
+	}
+
+	@PostMapping(value = "/user/img")
+	public ApiResponse<String> uploadImg(ImgDto imgDto) throws Exception{
+		usersService.uploadImg(imgDto.getFile());
+		return ApiResponse.onSuccess("업로드 성공");
 	}
 
 	@PostMapping("/user/isDuplicated")
@@ -105,6 +113,11 @@ public class UserApiController {
 	@Data
 	static class userDeleteDto {
 		private String password;
+	}
+
+	@Data
+	static class ImgDto {
+		private MultipartFile file;
 	}
 
 	@Data
