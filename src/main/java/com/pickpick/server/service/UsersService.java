@@ -72,9 +72,9 @@ public class UsersService {
 				.build();
 	}
 
-	public void uploadImg(MultipartFile file) {
+	public void uploadImg(MultipartFile imgUrl) {
 		Users users = usersRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
-		users.updateImgUrl(fileService.save(file));
+		users.updateImgUrl(fileService.save(imgUrl));
 	}
 
 	public void updateUserInfo(UserRequestDto.UpdateUserRequestDto dto) {

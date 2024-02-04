@@ -38,32 +38,32 @@ import org.hibernate.annotations.DynamicUpdate;
 @DynamicUpdate
 public class Feed {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feed_id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "feed_id")
+	private Long id;
 
-    private String content;
+	private String content;
 
-    @Column(nullable = false, length = 3)
-    @ColumnDefault("'OFF'")
-    @Enumerated(EnumType.STRING)
-    private BookMark bookMark;
+	@Column(nullable = false, length = 3)
+	@ColumnDefault("'OFF'")
+	@Enumerated(EnumType.STRING)
+	private BookMark bookMark;
 
-    @Column(nullable = false)
-    private LocalDate createdAt;
+	@Column(nullable = false)
+	private LocalDate createdAt;
 
-    private String imgUrl;
+	private String imgUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "album_id")
-    private Album album;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "album_id")
+	private Album album;
 
-    @OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
-    private List<Photo> photo = new ArrayList<>();
+	@OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)
+	private List<Photo> photo = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users user;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private Users user;
 
 }

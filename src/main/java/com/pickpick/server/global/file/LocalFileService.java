@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class FileServiceImpl implements FileService {
+public class LocalFileService implements FileService {
 
 	@Value("${file.dir}")
 	private String fileDir;

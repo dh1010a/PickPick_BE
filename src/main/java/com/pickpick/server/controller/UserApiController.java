@@ -44,7 +44,7 @@ public class UserApiController {
 
 	@PostMapping(value = "/user/img")
 	public ApiResponse<String> uploadImg(ImgDto imgDto) throws Exception{
-		usersService.uploadImg(imgDto.getFile());
+		usersService.uploadImg(imgDto.getImgUrl());
 		return ApiResponse.onSuccess("업로드 성공");
 	}
 
@@ -117,7 +117,7 @@ public class UserApiController {
 
 	@Data
 	static class ImgDto {
-		private MultipartFile file;
+		private MultipartFile imgUrl;
 	}
 
 	@Data
