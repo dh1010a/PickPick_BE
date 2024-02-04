@@ -38,7 +38,7 @@ public class AlbumService {
         request.getMemberId().forEach(memberId -> {
             Optional<Member> member = memberRepository.findById(memberId);
             if(member.isEmpty()){
-                throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+                throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
 
             //sharedAlbum 생성
@@ -58,7 +58,7 @@ public class AlbumService {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if (member.isEmpty()) {
-            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
 
         List<SharedAlbum> sharedAlbumList = member.get().getSharedAlbums();
