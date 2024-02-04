@@ -1,10 +1,11 @@
 package com.pickpick.server.feed.service;
 
+import com.pickpick.server.feed.dto.FeedRequest.CreateDTO;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.FeedHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.PhotoHandler;
-import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
+import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.feed.domain.Feed;
 import com.pickpick.server.photo.domain.Photo;
@@ -32,19 +33,19 @@ public class FeedService {
     private final AlbumRepository albumRepository;
     private final MemberRepository memberRepository;
 
-    public Feed create(FeedRequest.CreateDTO request){
+    public Feed create(CreateDTO request){
         Optional<Album> album = albumRepository.findById(request.getAlbumId());
         if(album.isEmpty()){
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
         }
-        Optional<Member> user = memberRepository.findById(request.getUserId());
-        if(user.isEmpty()){
-            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        Optional<Member> member = memberRepository.findById(request.getMemberId());
+        if(member.isEmpty()){
+            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
         List<Photo> photoList = new ArrayList<>();
 
         Feed feed = Feed.builder()
-            .user(user.get())
+            .member(member.get())
             .album(album.get())
             .content(request.getContent())
             .createdAt(LocalDate.now())

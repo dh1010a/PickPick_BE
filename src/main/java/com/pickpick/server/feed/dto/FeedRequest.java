@@ -13,7 +13,7 @@ public class FeedRequest {
     public static class CreateDTO{
 
         @ExistMember
-        private Long userId;
+        private Long memberId;
 
         @ExistAlbum
         private Long albumId;

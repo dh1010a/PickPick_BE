@@ -27,15 +27,15 @@ public class SharedAlbum {
 	private Long id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id")
-	private Member user;
+	@JoinColumn(name = "member_id")
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "album_id")
 	private Album album;
 
-	public SharedAlbum(Member user, Album album) {
-		this.user = user;
+	public SharedAlbum(Member member, Album album) {
+		this.member = member;
 		this.album = album;
 	}
 }
