@@ -1,7 +1,7 @@
 package com.pickpick.server.converter;
 
-import com.pickpick.server.domain.Feed;
-import com.pickpick.server.dto.FeedResponse;
+import com.pickpick.server.feed.domain.Feed;
+import com.pickpick.server.feed.dto.FeedResponse;
 import java.util.List;
 
 public class FeedConverter {

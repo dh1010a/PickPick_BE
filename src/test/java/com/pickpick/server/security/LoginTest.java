@@ -1,11 +1,11 @@
 package com.pickpick.server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.domain.enums.PublicStatus;
-import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserRequestDto;
-import com.pickpick.server.repository.UsersRepository;
-import com.pickpick.server.service.UsersService;
+import com.pickpick.server.member.domain.enums.PublicStatus;
+import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.dto.MemberRequestDto;
+import com.pickpick.server.member.repository.MemberRepository;
+import com.pickpick.server.member.service.MemberService;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,10 +36,10 @@ public class LoginTest {
 	MockMvc mockMvc;
 
 	@Autowired
-	UsersRepository usersRepository;
+	MemberRepository memberRepository;
 
 	@Autowired
-	UsersService usersService;
+	MemberService memberService;
 
 	@Autowired
 	EntityManager em;
@@ -62,7 +62,7 @@ public class LoginTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(UserRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+		memberService.save(MemberRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

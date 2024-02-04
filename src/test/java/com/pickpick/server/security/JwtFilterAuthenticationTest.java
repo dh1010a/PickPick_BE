@@ -8,12 +8,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.domain.enums.PublicStatus;
-import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserRequestDto;
-import com.pickpick.server.repository.UsersRepository;
-import com.pickpick.server.security.service.JwtService;
-import com.pickpick.server.service.UsersService;
+import com.pickpick.server.member.domain.enums.PublicStatus;
+import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.dto.MemberRequestDto;
+import com.pickpick.server.member.repository.MemberRepository;
+import com.pickpick.server.global.security.service.JwtService;
+import com.pickpick.server.member.service.MemberService;
 import jakarta.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +40,7 @@ public class JwtFilterAuthenticationTest {
 	MockMvc mockMvc;
 
 	@Autowired
-	UsersRepository usersRepository;
+	MemberRepository memberRepository;
 
 	@Autowired
 	EntityManager em;
@@ -49,7 +49,7 @@ public class JwtFilterAuthenticationTest {
 	JwtService jwtService;
 
 	@Autowired
-	UsersService usersService;
+	MemberService memberService;
 
 	PasswordEncoder delegatingPasswordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
@@ -83,7 +83,7 @@ public class JwtFilterAuthenticationTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(UserRequestDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
+		memberService.save(MemberRequestDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

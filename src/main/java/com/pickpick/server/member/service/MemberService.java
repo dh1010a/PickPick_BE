@@ -1,0 +1,115 @@
+package com.pickpick.server.member.service;
+
+import static com.pickpick.server.config.SecurityConfig.passwordEncoder;
+
+import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
+import com.pickpick.server.member.domain.Member;
+import com.pickpick.server.member.domain.enums.PublicStatus;
+import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.dto.MemberDto;
+import com.pickpick.server.member.dto.MemberRequestDto;
+import com.pickpick.server.global.file.FileService;
+import com.pickpick.server.global.file.exception.FileException;
+import com.pickpick.server.member.repository.MemberRepository;
+import com.pickpick.server.global.security.util.SecurityUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class MemberService {
+
+	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final FileService fileService;
+
+	public Long save(MemberRequestDto.UserSignupDto userRequestDto) throws Exception, FileException {
+
+		Member member = Member.builder()
+				.name(userRequestDto.getName())
+				.email(userRequestDto.getEmail())
+				.password(passwordEncoder().encode(userRequestDto.getPassword()))
+				.phoneNum(userRequestDto.getPhoneNum())
+//				.imgUrl(userRequestDto.getImgUrl())
+				.publicStatus(userRequestDto.getPublicStatus())
+				.shareStatus(userRequestDto.getShareStatus())
+				.build();
+
+//		userRequestDto.getUploadImg().ifPresent(file -> users.updateImgUrl(fileService.save(file)));
+
+		Long id = memberRepository.save(member).getId();
+
+
+		return id;
+	}
+
+	public boolean isExistByEmail(String email) {
+		return memberRepository.existsByEmail(email);
+	}
+
+	public MemberDto getUserInfo(String email) {
+		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		return MemberDto.builder()
+				.name(member.getName())
+				.email(member.getEmail())
+				.imgUrl(member.getImgUrl())
+				.phoneNum(member.getPhoneNum())
+				.build();
+	}
+
+	public MemberDto getMyInfo() {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		return MemberDto.builder()
+				.name(member.getName())
+				.email(member.getEmail())
+				.imgUrl(member.getImgUrl())
+				.phoneNum(member.getPhoneNum())
+				.build();
+	}
+
+	public void uploadImg(MultipartFile imgUrl) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		member.updateImgUrl(fileService.save(imgUrl));
+	}
+
+	public void updateUserInfo(MemberRequestDto.UpdateUserRequestDto dto) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		member.updateName(dto.getName());
+		member.updateImgUrl(dto.getImgUrl());
+
+		if (dto.getPublicStatus().equals(PublicStatus.PUBLIC.toString())) {
+			member.updatePublicStatus(PublicStatus.HIDDEN);
+		} else {
+			member.updatePublicStatus(PublicStatus.PUBLIC);
+		}
+
+		if (dto.getShareStatus().equals(ShareStatus.SHAREABLE.toString())) {
+			member.updateShareStatus(ShareStatus.NON_SHAREABLE);
+		} else {
+			member.updateShareStatus(ShareStatus.SHAREABLE);
+		}
+	}
+
+	public boolean isUserShareable(String email) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		return member.getShareStatus().equals(ShareStatus.SHAREABLE);
+	}
+
+	public boolean isUserPublic(String email) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		return member.getPublicStatus().equals(PublicStatus.PUBLIC);
+	}
+
+	public void deleteUser(String checkPassword, String email) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		if(!member.matchPassword(passwordEncoder, checkPassword) ) {
+			throw new UserHandler(ErrorStatus.MEMBER_PASSWORD_NOT_MATCH);
+		}
+		memberRepository.delete(member);
+	}
+}

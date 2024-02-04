@@ -1,9 +1,7 @@
 package com.pickpick.server.converter;
 
-import com.pickpick.server.apiPayload.ApiResponse;
-import com.pickpick.server.domain.Category;
-import com.pickpick.server.domain.Photo;
-import com.pickpick.server.dto.PhotoResponse;
+import com.pickpick.server.photo.domain.Photo;
+import com.pickpick.server.photo.dto.PhotoResponse;
 import java.util.List;
 
 public class PhotoConverter {

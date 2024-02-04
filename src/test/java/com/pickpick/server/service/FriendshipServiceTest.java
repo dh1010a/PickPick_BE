@@ -5,11 +5,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.domain.Users;
-import com.pickpick.server.domain.enums.PublicStatus;
-import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserRequestDto;
-import com.pickpick.server.repository.UsersRepository;
+import com.pickpick.server.member.domain.Member;
+import com.pickpick.server.member.domain.enums.PublicStatus;
+import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.dto.MemberRequestDto;
+import com.pickpick.server.member.repository.MemberRepository;
+import com.pickpick.server.member.service.FriendshipService;
+import com.pickpick.server.member.service.MemberService;
 import jakarta.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 class FriendshipServiceTest {
 
 	@Autowired
-	UsersService usersService;
+	MemberService memberService;
 
 	@Autowired
 	EntityManager em;
@@ -40,7 +42,7 @@ class FriendshipServiceTest {
 	FriendshipService friendshipService;
 
 	@Autowired
-	UsersRepository usersRepository;
+	MemberRepository memberRepository;
 
 	@Autowired
 	MockMvc mockMvc;
@@ -61,9 +63,9 @@ class FriendshipServiceTest {
 
 	@BeforeEach
 	private void init() {
-		usersService.save(UserRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+		memberService.save(MemberRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
-		usersService.save(UserRequestDto.builder().name("도현2").email("dh1010a2@naver.com").password("1234").phoneNum("01054888")
+		memberService.save(MemberRequestDto.builder().name("도현2").email("dh1010a2@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
@@ -92,8 +94,8 @@ class FriendshipServiceTest {
 	@Test
 	public void 친구요청_생성_성공() throws Exception{
 	    //given
-		Users fromUser = usersRepository.findByEmail(FROM_EMAIL).orElseThrow(() -> new Exception("회원 조회 실패"));
-		Users toUser = usersRepository.findByEmail(TO_EMAIL).orElseThrow(() -> new Exception("회원 조회 실패"));
+		Member fromUser = memberRepository.findByEmail(FROM_EMAIL).orElseThrow(() -> new Exception("회원 조회 실패"));
+		Member toUser = memberRepository.findByEmail(TO_EMAIL).orElseThrow(() -> new Exception("회원 조회 실패"));
 		Map<String, String> map = getUsernamePasswordMap(USERNAME, PASSWORD);
 		//when
 //	    friendshipService.createFriendship();
