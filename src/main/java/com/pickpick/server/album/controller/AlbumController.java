@@ -28,8 +28,8 @@ public class AlbumController {
 
     @GetMapping("/albums")
     public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(){
-        String userEmail = SecurityUtil.getLoginEmail();
-        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findByEmail(userEmail)));
+        String memberEmail = SecurityUtil.getLoginEmail();
+        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findByEmail(memberEmail)));
     }
 
     

@@ -22,7 +22,7 @@ public class AlbumRequest {
         private ShareStatus shareStatus;
 
         @ExistMembers
-        private List<Long> userId;
+        private List<Long> memberId;
     }
 
     @Getter
@@ -42,7 +42,7 @@ public class AlbumRequest {
         private String title;
 
         @ExistMembers
-        private List<Long> userId;
+        private List<Long> memberId;
 
         private String imgUrl;
     }

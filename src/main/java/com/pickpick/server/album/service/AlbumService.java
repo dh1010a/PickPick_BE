@@ -1,6 +1,8 @@
 package com.pickpick.server.album.service;
 
 
+import com.pickpick.server.album.dto.AlbumRequest.CreateDTO;
+import com.pickpick.server.album.dto.AlbumRequest.UpdateAlbumDTO;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
@@ -29,20 +31,20 @@ public class AlbumService {
     private final MemberRepository memberRepository;
     private final SharedAlbumRepository sharedAlbumRepository;
 
-    public Album create(AlbumRequest.CreateDTO request) {
+    public Album create(CreateDTO request) {
 
         //앨범 생성
         Album album = AlbumConverter.toAlbum(request);
 
-        request.getUserId().forEach(userId -> {
-            Optional<Member> user = memberRepository.findById(userId);
-            if(user.isEmpty()){
+        request.getMemberId().forEach(memberId -> {
+            Optional<Member> member = memberRepository.findById(memberId);
+            if(member.isEmpty()){
                 throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
 
             //sharedAlbum 생성
             SharedAlbum sharedAlbum = SharedAlbum.builder()
-                .user(user.get())
+                .member(member.get())
                 .album(album)
                 .build();
 
@@ -54,13 +56,13 @@ public class AlbumService {
     }
 
     public List<List<Album>> findByEmail(String email) {
-        Optional<Member> user = memberRepository.findByEmail(email);
+        Optional<Member> member = memberRepository.findByEmail(email);
 
-        if (user.isEmpty()) {
+        if (member.isEmpty()) {
             throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
 
-        List<SharedAlbum> sharedAlbumList = user.get().getSharedAlbums();
+        List<SharedAlbum> sharedAlbumList = member.get().getSharedAlbums();
 
         if (!sharedAlbumList.isEmpty()) {
 
@@ -92,7 +94,7 @@ public class AlbumService {
         albumRepository.delete(album.get());
     }
 
-    public Long updateAlbum(AlbumRequest.UpdateAlbumDTO request) {
+    public Long updateAlbum(UpdateAlbumDTO request) {
         Optional<Album> album = albumRepository.findById(request.getAlbumId());
         if(album.isEmpty()){
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
@@ -101,14 +103,14 @@ public class AlbumService {
         album.get().setTitleImgUrl(request.getImgUrl());
         List<SharedAlbum> sharedAlbumList = sharedAlbumRepository.findByAlbum(album.get());
         sharedAlbumRepository.deleteAll(sharedAlbumList);
-        for (Long userId : request.getUserId()) {
-            Optional<Member> user = memberRepository.findById(userId);
-            if(user.isEmpty()){
+        for (Long memberId : request.getMemberId()) {
+            Optional<Member> member = memberRepository.findById(memberId);
+            if(member.isEmpty()){
                 throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
             SharedAlbum sharedAlbum = SharedAlbum.builder()
                 .album(album.get())
-                .user(user.get())
+                .member(member.get())
                 .build();
             sharedAlbumRepository.save(sharedAlbum);
         }
