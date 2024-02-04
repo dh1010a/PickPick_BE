@@ -3,13 +3,13 @@ package com.pickpick.server.config;
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pickpick.server.filter.JsonUsernamePasswordAuthenticationFilter;
-import com.pickpick.server.filter.JwtAuthenticationProcessingFilter;
-import com.pickpick.server.repository.UsersRepository;
-import com.pickpick.server.security.service.UserDetailsServiceImpl;
-import com.pickpick.server.security.handler.LoginFailureHandler;
-import com.pickpick.server.security.handler.LoginSuccessJWTProvideHandler;
-import com.pickpick.server.security.service.JwtService;
+import com.pickpick.server.global.security.filter.JsonUsernamePasswordAuthenticationFilter;
+import com.pickpick.server.global.security.filter.JwtAuthenticationProcessingFilter;
+import com.pickpick.server.member.repository.MemberRepository;
+import com.pickpick.server.global.security.service.UserDetailsServiceImpl;
+import com.pickpick.server.global.security.handler.LoginFailureHandler;
+import com.pickpick.server.global.security.handler.LoginSuccessJWTProvideHandler;
+import com.pickpick.server.global.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class SecurityConfig {
 
 	private final UserDetailsServiceImpl userDetailsService;
 	private final ObjectMapper objectMapper;
-	private final UsersRepository usersRepository;
+	private final MemberRepository memberRepository;
 	private final JwtService jwtService;
 
 	 // 스프링 시큐리티 기능 비활성화
@@ -94,7 +94,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessJWTProvideHandler loginSuccessJWTProvideHandler(){
-        return new LoginSuccessJWTProvideHandler(jwtService, usersRepository);
+        return new LoginSuccessJWTProvideHandler(jwtService, memberRepository);
     }
 
     @Bean
@@ -113,7 +113,8 @@ public class SecurityConfig {
 
 	@Bean
 	public JwtAuthenticationProcessingFilter jwtAuthenticationProcessingFilter(){
-		JwtAuthenticationProcessingFilter jsonUsernamePasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService, usersRepository);
+		JwtAuthenticationProcessingFilter jsonUsernamePasswordLoginFilter = new JwtAuthenticationProcessingFilter(jwtService,
+				memberRepository);
 
 		return jsonUsernamePasswordLoginFilter;
 	}

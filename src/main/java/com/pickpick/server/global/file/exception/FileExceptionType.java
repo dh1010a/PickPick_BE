@@ -1,6 +1,6 @@
 package com.pickpick.server.global.file.exception;
 
-import com.pickpick.server.apiPayload.exception.BaseExceptionType;
+import com.pickpick.server.global.apiPayload.exception.BaseExceptionType;
 import org.springframework.http.HttpStatus;
 
 public enum FileExceptionType implements BaseExceptionType {

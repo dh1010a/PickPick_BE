@@ -6,12 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.pickpick.server.domain.Users;
-import com.pickpick.server.domain.enums.PublicStatus;
-import com.pickpick.server.domain.enums.ShareStatus;
-import com.pickpick.server.dto.UserRequestDto;
-import com.pickpick.server.repository.UsersRepository;
-import com.pickpick.server.service.UsersService;
+import com.pickpick.server.global.security.service.JwtService;
+import com.pickpick.server.member.domain.Member;
+import com.pickpick.server.member.domain.enums.PublicStatus;
+import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.dto.MemberRequestDto;
+import com.pickpick.server.member.repository.MemberRepository;
+import com.pickpick.server.member.service.MemberService;
 import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -32,9 +33,9 @@ class JwtServiceTest {
 	@Autowired
 	JwtService jwtService;
 	@Autowired
-	UsersRepository usersRepository;
+	MemberRepository memberRepository;
 	@Autowired
-	UsersService usersService;
+	MemberService memberService;
 	@Autowired
 	EntityManager em;
 
@@ -55,7 +56,7 @@ class JwtServiceTest {
 
 	@BeforeEach
 	public void init() {
-		usersService.save(UserRequestDto.builder().name("도현").email(email).password("1234").phoneNum("01054888")
+		memberService.save(MemberRequestDto.builder().name("도현").email(email).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
@@ -100,8 +101,8 @@ class JwtServiceTest {
 		clear();
 
 		//then
-		assertThrows(Exception.class, () -> usersRepository.findByRefreshToken(refreshToken).get());//
-		assertThat(usersRepository.findByRefreshToken(reIssuedRefreshToken).get().getEmail()).isEqualTo(email);
+		assertThrows(Exception.class, () -> memberRepository.findByRefreshToken(refreshToken).get());//
+		assertThat(memberRepository.findByRefreshToken(reIssuedRefreshToken).get().getEmail()).isEqualTo(email);
 	}
 
 	@Test
@@ -116,10 +117,10 @@ class JwtServiceTest {
 		clear();
 
 		//then
-		assertThrows(Exception.class, () -> usersRepository.findByRefreshToken(refreshToken).get());
+		assertThrows(Exception.class, () -> memberRepository.findByRefreshToken(refreshToken).get());
 
-		Users users = usersRepository.findByEmail(email).get();
-		assertThat(users.getRefreshToken()).isNull();
+		Member member = memberRepository.findByEmail(email).get();
+		assertThat(member.getRefreshToken()).isNull();
 	}
 
 	@Test
