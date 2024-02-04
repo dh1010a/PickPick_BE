@@ -12,7 +12,7 @@ public class PhotoRequest {
     public static class CreateDTO {
 
         @ExistMember
-        private Long userId;
+        private Long memberId;
 
         @NotNull
         private String imgUrl;

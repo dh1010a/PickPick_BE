@@ -1,8 +1,6 @@
 package com.pickpick.server.album.service;
 
 
-import com.pickpick.server.album.dto.AlbumRequest.CreateDTO;
-import com.pickpick.server.album.dto.AlbumRequest.UpdateAlbumDTO;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
@@ -31,7 +29,7 @@ public class AlbumService {
     private final MemberRepository memberRepository;
     private final SharedAlbumRepository sharedAlbumRepository;
 
-    public Album create(CreateDTO request) {
+    public Album create(AlbumRequest.CreateDTO request) {
 
         //앨범 생성
         Album album = AlbumConverter.toAlbum(request);

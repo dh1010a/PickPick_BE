@@ -14,7 +14,7 @@ public class UserDetailsImpl implements UserDetails {
 		this.member = member;
 	}
 
-	public Member getUsers() {
+	public Member getMember() {
 		return member;
 	}
 
@@ -32,6 +32,8 @@ public class UserDetailsImpl implements UserDetails {
 	public String getUsername() {
 		return member.getEmail();
 	}
+
+	public String getEmail() {return member.getEmail();}
 
 	@Override
 	public boolean isAccountNonExpired() {

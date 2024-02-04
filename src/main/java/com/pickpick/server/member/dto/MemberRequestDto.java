@@ -17,7 +17,7 @@ public class MemberRequestDto {
 	@Data
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class UserSignupDto {
+	public static class MemberSignupDto {
 		private String name;
 		private String email;
 		private String password;
@@ -31,7 +31,7 @@ public class MemberRequestDto {
 	@Builder
 	@NoArgsConstructor
 	@AllArgsConstructor
-	public static class CreateUserRequestDto {
+	public static class CreateMemberRequestDto {
 		@NotEmpty
 		private String name;
 		@NotEmpty
@@ -47,7 +47,7 @@ public class MemberRequestDto {
 
 	@Data
 	@Builder
-	public static class UpdateUserRequestDto {
+	public static class UpdateMemberRequestDto {
 		@NotEmpty
 		private String name;
 		private String imgUrl;

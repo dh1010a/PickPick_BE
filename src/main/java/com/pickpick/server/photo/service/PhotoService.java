@@ -2,7 +2,7 @@ package com.pickpick.server.photo.service;
 
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.PhotoHandler;
-import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
+import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.photo.domain.Category;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.member.domain.Member;
@@ -27,12 +27,12 @@ public class PhotoService {
     private final MemberRepository memberRepository;
 
     public Photo create(PhotoRequest.CreateDTO request) {
-        Optional<Member> user = memberRepository.findById(request.getUserId());
-        if(user.isEmpty()){
-            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        Optional<Member> member = memberRepository.findById(request.getMemberId());
+        if(member.isEmpty()){
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
         Photo photo = Photo.builder()
-            .user(user.get())
+            .member(member.get())
             .imgUrl(request.getImgUrl())
             .build();
         return photoRepository.save(photo);
@@ -58,14 +58,14 @@ public class PhotoService {
     }
 
     public List<String> getPhotos(String email) {
-        Optional<Member> user = memberRepository.findByEmail(email);
+        Optional<Member> member = memberRepository.findByEmail(email);
 
-        if (user.isEmpty()) {
-            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        if (member.isEmpty()) {
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
         List<String> imgUrlList = new ArrayList<>();
 
-        List<Photo> photoList = user.get().getPhotos();
+        List<Photo> photoList = member.get().getPhotos();
         for (Photo photo : photoList) {
             imgUrlList.add(photo.getImgUrl());
         }

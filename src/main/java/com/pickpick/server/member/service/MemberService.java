@@ -3,14 +3,15 @@ package com.pickpick.server.member.service;
 import static com.pickpick.server.config.SecurityConfig.passwordEncoder;
 
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
-import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
+import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.member.domain.enums.PublicStatus;
 import com.pickpick.server.member.domain.enums.ShareStatus;
 import com.pickpick.server.member.dto.MemberDto;
-import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.global.file.exception.FileException;
+import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
+import com.pickpick.server.member.dto.MemberRequestDto.UpdateMemberRequestDto;
 import com.pickpick.server.member.repository.MemberRepository;
 import com.pickpick.server.global.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class MemberService {
 	private final PasswordEncoder passwordEncoder;
 	private final FileService fileService;
 
-	public Long save(MemberRequestDto.UserSignupDto userRequestDto) throws Exception, FileException {
+	public Long save(MemberSignupDto userRequestDto) throws Exception, FileException {
 
 		Member member = Member.builder()
 				.name(userRequestDto.getName())
@@ -52,8 +53,8 @@ public class MemberService {
 		return memberRepository.existsByEmail(email);
 	}
 
-	public MemberDto getUserInfo(String email) {
-		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+	public MemberDto getMemberInfo(String email) {
+		Member member = memberRepository.findByEmail(email).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return MemberDto.builder()
 				.name(member.getName())
 				.email(member.getEmail())
@@ -63,7 +64,7 @@ public class MemberService {
 	}
 
 	public MemberDto getMyInfo() {
-		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return MemberDto.builder()
 				.name(member.getName())
 				.email(member.getEmail())
@@ -73,12 +74,12 @@ public class MemberService {
 	}
 
 	public void uploadImg(MultipartFile imgUrl) {
-		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		member.updateImgUrl(fileService.save(imgUrl));
 	}
 
-	public void updateUserInfo(MemberRequestDto.UpdateUserRequestDto dto) {
-		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+	public void updateMemberInfo(UpdateMemberRequestDto dto) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		member.updateName(dto.getName());
 		member.updateImgUrl(dto.getImgUrl());
 
@@ -95,20 +96,20 @@ public class MemberService {
 		}
 	}
 
-	public boolean isUserShareable(String email) {
-		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+	public boolean isMemberShareable(String email) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return member.getShareStatus().equals(ShareStatus.SHAREABLE);
 	}
 
-	public boolean isUserPublic(String email) {
-		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+	public boolean isMemberPublic(String email) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		return member.getPublicStatus().equals(PublicStatus.PUBLIC);
 	}
 
-	public void deleteUser(String checkPassword, String email) {
-		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new UserHandler(ErrorStatus.MEMBER_NOT_FOUND));
+	public void deleteMember(String checkPassword, String email) {
+		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 		if(!member.matchPassword(passwordEncoder, checkPassword) ) {
-			throw new UserHandler(ErrorStatus.MEMBER_PASSWORD_NOT_MATCH);
+			throw new MemberHandler(ErrorStatus.MEMBER_PASSWORD_NOT_MATCH);
 		}
 		memberRepository.delete(member);
 	}

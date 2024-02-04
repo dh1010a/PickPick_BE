@@ -37,14 +37,14 @@ public class SecurityConfig {
 	private final MemberRepository memberRepository;
 	private final JwtService jwtService;
 
-	 // 스프링 시큐리티 기능 비활성화
-	@Bean
-	public WebSecurityCustomizer configure() {
-		return (web -> web.ignoring()
-				.requestMatchers(toH2Console())
-				.requestMatchers("/album/**", "/feeds/**", "/photos/**", "/static/**", "/h2-console/**", "/favicon.ico", "/error", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
-		);
-	}
+//	 // 스프링 시큐리티 기능 비활성화
+//	@Bean
+//	public WebSecurityCustomizer configure() {
+//		return (web -> web.ignoring()
+//				.requestMatchers(toH2Console())
+//				.requestMatchers("/album/**", "/feeds/**", "/photos/**", "/static/**", "/h2-console/**", "/favicon.ico", "/error", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
+//		);
+//	}
 
 	// 특정 HTTP 요청에 대한 웹 기반 보안 구성
 	@Bean
@@ -53,7 +53,7 @@ public class SecurityConfig {
 				.httpBasic(AbstractHttpConfigurer::disable)
 				.formLogin(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests((authorize) -> authorize
-						.requestMatchers("/feed/**", "/albums/**", "/photo/**", "/signup", "/", "/login", "/album/init").permitAll()
+						.requestMatchers( "/signup", "/", "/login").permitAll()
 						.anyRequest().authenticated())
 //				.formLogin(formLogin -> formLogin
 //						.loginPage("/login")
@@ -119,10 +119,4 @@ public class SecurityConfig {
 		return jsonUsernamePasswordLoginFilter;
 	}
 
-//	@Bean
-//	public WebSecurityCustomizer configure() {
-//		return (web -> web.ignoring()
-//			.requestMatchers(toH2Console())
-//		);
-//	}
 }
