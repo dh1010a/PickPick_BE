@@ -4,8 +4,8 @@ import com.pickpick.server.feed.dto.FeedRequest.CreateDTO;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.FeedHandler;
+import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.PhotoHandler;
-import com.pickpick.server.global.apiPayload.exception.handler.UserHandler;
 import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.feed.domain.Feed;
 import com.pickpick.server.photo.domain.Photo;
@@ -40,7 +40,7 @@ public class FeedService {
         }
         Optional<Member> member = memberRepository.findById(request.getMemberId());
         if(member.isEmpty()){
-            throw new UserHandler(ErrorStatus.MEMBER_NOT_FOUND);
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
         }
         List<Photo> photoList = new ArrayList<>();
 

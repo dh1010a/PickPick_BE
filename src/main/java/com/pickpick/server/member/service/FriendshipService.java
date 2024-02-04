@@ -37,7 +37,7 @@ public class FriendshipService {
 		// 받는 사람측에 저장될 친구 요청
 		Friendship friendshipFrom = Friendship.builder()
 				.member(fromUser)
-				.userEmail(fromEmail)
+				.memberEmail(fromEmail)
 				.friendEmail(toEmail)
 				.status(FriendshipStatus.WAITING)
 				.isFrom(true) // 받는 사람은 이게 보내는 요청인지 아닌지 판단할 수 있다. (어디서 부터 받은 요청 인가?)
@@ -46,7 +46,7 @@ public class FriendshipService {
 		// 보내는 사람 쪽에 저장될 친구 요청
 		Friendship friendshipTo = Friendship.builder()
 				.member(toUser)
-				.userEmail(toEmail)
+				.memberEmail(toEmail)
 				.friendEmail(fromEmail)
 				.status(FriendshipStatus.WAITING)
 				.isFrom(false)
