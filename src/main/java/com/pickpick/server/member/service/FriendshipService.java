@@ -1,5 +1,7 @@
 package com.pickpick.server.member.service;
 
+import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.member.domain.Friendship;
 import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.member.domain.enums.FriendshipStatus;
@@ -33,6 +35,10 @@ public class FriendshipService {
 		// 유저 정보를 모두 가져옴
 		Member fromUser = memberRepository.findByEmail(fromEmail).orElseThrow(() -> new Exception("회원 조회 실패"));
 		Member toUser = memberRepository.findByEmail(toEmail).orElseThrow(() -> new Exception("회원 조회 실패"));
+
+		if (!toUser.isPublic()) {
+			throw new MemberHandler(ErrorStatus.MEMBER_NOT_PUBLIC);
+		}
 
 		// 받는 사람측에 저장될 친구 요청
 		Friendship friendshipFrom = Friendship.builder()

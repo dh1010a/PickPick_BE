@@ -48,7 +48,6 @@ public class FeedService {
             .member(member.get())
             .album(album.get())
             .content(request.getContent())
-            .createdAt(request.getCreatedAt())
             .build();
 
         for(Long photoId : request.getPhotoIdList()){
@@ -84,7 +83,6 @@ public class FeedService {
         if(feed.isEmpty()){
             throw new FeedHandler(ErrorStatus.FEED_NOT_FOUND);
         }
-        feed.get().setCreatedAt(request.getCreatedAt());
         feed.get().setContent(request.getContent());
         return feedRepository.save(feed.get());
     }
