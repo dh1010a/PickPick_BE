@@ -1,7 +1,7 @@
 package com.pickpick.server.feed.domain;
 
 import com.pickpick.server.album.domain.Album;
-import com.pickpick.server.global.common.BaseEntity;
+import com.pickpick.server.global.common.BaseTimeEntity;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.feed.domain.enums.BookMark;
 import com.pickpick.server.member.domain.Member;
@@ -17,7 +17,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -37,7 +36,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter
 @DynamicInsert
 @DynamicUpdate
-public class Feed extends BaseEntity {
+public class Feed extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

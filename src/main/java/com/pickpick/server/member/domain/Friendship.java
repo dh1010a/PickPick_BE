@@ -1,6 +1,6 @@
 package com.pickpick.server.member.domain;
 
-import com.pickpick.server.global.common.BaseEntity;
+import com.pickpick.server.global.common.BaseTimeEntity;
 import com.pickpick.server.member.domain.enums.FriendshipStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Friendship extends BaseEntity {
+public class Friendship extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

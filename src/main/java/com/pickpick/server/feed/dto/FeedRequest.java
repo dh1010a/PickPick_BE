@@ -24,8 +24,6 @@ public class FeedRequest {
 
         private String content;
 
-        private LocalDate createdAt;
-
     }
 
     @Getter
@@ -34,8 +32,6 @@ public class FeedRequest {
         private Long feedId;
 
         private String content;
-
-        private LocalDate createdAt;
 
     }
 

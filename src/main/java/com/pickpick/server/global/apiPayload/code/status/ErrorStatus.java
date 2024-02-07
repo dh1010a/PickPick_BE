@@ -19,6 +19,7 @@ public enum ErrorStatus implements BaseErrorCode {
     //유저 응답
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "유저가 존재하지 않습니다."),
     MEMBER_PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "MEMBER4002", "유저가 존재하지 않습니다."),
+    MEMBER_NOT_PUBLIC(HttpStatus.BAD_REQUEST, "MEMBER4003", "친구 요청을 보내려는 상대가 비공개 상태입니다."),
 
 
     //앨범 응답

@@ -2,6 +2,7 @@ package com.pickpick.server.photo.controller;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.converter.PhotoConverter;
+import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.photo.dto.PhotoRequest;
 import com.pickpick.server.photo.dto.PhotoResponse;
 import com.pickpick.server.photo.service.PhotoService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PhotoController {
 
     private final PhotoService photoService;
+    private final FileService fileService;
 
     @PostMapping("/photo")
     public ApiResponse<PhotoResponse.CreateDTO> create(@RequestBody @Valid PhotoRequest.CreateDTO request) {

@@ -3,7 +3,7 @@ package com.pickpick.server.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickpick.server.feed.domain.Feed;
-import com.pickpick.server.global.common.BaseEntity;
+import com.pickpick.server.global.common.BaseTimeEntity;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.album.domain.SharedAlbum;
 import com.pickpick.server.member.domain.enums.PublicStatus;
@@ -14,15 +14,13 @@ import java.util.List;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
-
 @Entity
 @Getter
 @Builder
 @AllArgsConstructor
 @Table(name = "Member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseEntity {
+public class Member extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,6 +70,14 @@ public class Member extends BaseEntity {
 
 	public boolean matchPassword(PasswordEncoder passwordEncoder, String checkPassword) {
 		return passwordEncoder.matches(checkPassword, getPassword());
+	}
+
+	public boolean isPublic() {
+		return publicStatus.equals(PublicStatus.PUBLIC);
+	}
+
+	public boolean isShareAble() {
+		return shareStatus.equals(ShareStatus.NON_SHAREABLE);
 	}
 
 	//== jwt 토큰 추가 ==//
