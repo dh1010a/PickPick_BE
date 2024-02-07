@@ -29,6 +29,8 @@ public class MemberService {
 	private final PasswordEncoder passwordEncoder;
 	private final FileService fileService;
 
+	private static final String USER_PROFILE_IMG_PATH = "\\profileImg\\";
+
 	public Long save(MemberSignupDto userRequestDto) throws Exception, FileException {
 
 		Member member = Member.builder()
@@ -75,7 +77,7 @@ public class MemberService {
 
 	public void uploadImg(MultipartFile imgUrl) {
 		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
-		member.updateImgUrl(fileService.save(imgUrl));
+		member.updateImgUrl(fileService.saveProfileImg(imgUrl));
 	}
 
 	public void updateMemberInfo(UpdateMemberRequestDto dto) {

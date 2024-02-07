@@ -3,6 +3,7 @@ package com.pickpick.server.photo.service;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.PhotoHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
+import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.photo.domain.Category;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.member.domain.Member;
@@ -25,6 +26,7 @@ public class PhotoService {
     private final PhotoRepository photoRepository;
     private final CategoryRepository categoryRepository;
     private final MemberRepository memberRepository;
+    private final FileService fileService;
 
     public Photo create(PhotoRequest.CreateDTO request) {
         Optional<Member> member = memberRepository.findById(request.getMemberId());
