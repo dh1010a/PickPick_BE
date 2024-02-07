@@ -23,6 +23,7 @@ public class PhotoController {
 
     @PostMapping("/photo")
     public ApiResponse<PhotoResponse.CreateDTO> create(@RequestBody @Valid PhotoRequest.CreateDTO request) {
+
         return ApiResponse.onSuccess(PhotoConverter.toCreateDTO(photoService.create(request)));
     }
 

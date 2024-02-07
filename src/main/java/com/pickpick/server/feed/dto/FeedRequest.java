@@ -4,6 +4,7 @@ import com.pickpick.server.global.validation.annotation.ExistAlbum;
 import com.pickpick.server.global.validation.annotation.ExistFeed;
 import com.pickpick.server.global.validation.annotation.ExistPhotos;
 import com.pickpick.server.global.validation.annotation.ExistMember;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Getter;
 
@@ -23,6 +24,8 @@ public class FeedRequest {
 
         private String content;
 
+        private LocalDate createdAt;
+
     }
 
     @Getter
@@ -31,6 +34,9 @@ public class FeedRequest {
         private Long feedId;
 
         private String content;
+
+        private LocalDate createdAt;
+
     }
 
     @Getter

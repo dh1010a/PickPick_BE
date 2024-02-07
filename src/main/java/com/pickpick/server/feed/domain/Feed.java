@@ -1,6 +1,7 @@
 package com.pickpick.server.feed.domain;
 
 import com.pickpick.server.album.domain.Album;
+import com.pickpick.server.global.common.BaseEntity;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.feed.domain.enums.BookMark;
 import com.pickpick.server.member.domain.Member;
@@ -36,7 +37,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Setter
 @DynamicInsert
 @DynamicUpdate
-public class Feed {
+public class Feed extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,8 +51,6 @@ public class Feed {
 	@Enumerated(EnumType.STRING)
 	private BookMark bookMark;
 
-	@Column(nullable = false)
-	private LocalDate createdAt;
 
 	private String imgUrl;
 

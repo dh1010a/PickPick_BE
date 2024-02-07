@@ -40,4 +40,5 @@ public class FeedController {
         feedService.deleteFeed(request);
         return ApiResponse.onSuccess(FeedConverter.toDeleteFeedDTO());
     }
+
 }
