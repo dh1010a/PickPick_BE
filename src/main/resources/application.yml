@@ -1,5 +1,9 @@
 spring:
 
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
   profiles:
     include: jwt #jwt.yml 불러오기
   h2:
@@ -28,4 +32,4 @@ server:
 
 
 file:
-  dir: C:\Users\dh101\Desktop\profile\
+  dir: C:\Users\dh101\Desktop\pickpick\

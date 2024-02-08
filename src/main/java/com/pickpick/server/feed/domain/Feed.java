@@ -1,5 +1,6 @@
 package com.pickpick.server.feed.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.global.common.BaseTimeEntity;
 import com.pickpick.server.photo.domain.Photo;
@@ -55,6 +56,7 @@ public class Feed extends BaseTimeEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "album_id")
+	@JsonIgnore
 	private Album album;
 
 	@OneToMany(mappedBy = "feed", cascade = CascadeType.ALL)

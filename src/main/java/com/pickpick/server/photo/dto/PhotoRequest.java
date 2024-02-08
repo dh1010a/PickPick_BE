@@ -4,18 +4,17 @@ import com.pickpick.server.global.validation.annotation.ExistPhoto;
 import com.pickpick.server.global.validation.annotation.ExistMember;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import lombok.Data;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 public class PhotoRequest {
 
-    @Getter
+    @Data
     public static class CreateDTO {
 
-        @ExistMember
-        private Long memberId;
-
-        @NotNull
-        private String imgUrl;
+//        private Long memberId;
+        private MultipartFile imgUrl;
     }
 
     @Getter

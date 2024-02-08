@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FileService {
 
-	String savePhoto(MultipartFile multipartFile, Photo photo) throws FileException;
+	String savePhoto(MultipartFile multipartFile, Long memberId) throws FileException;
 
 	String saveProfileImg(MultipartFile multipartFile ) throws FileException;
 
