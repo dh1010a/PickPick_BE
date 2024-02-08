@@ -4,6 +4,7 @@ import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.PhotoHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.global.file.FileService;
+import com.pickpick.server.global.security.util.SecurityUtil;
 import com.pickpick.server.photo.domain.Category;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.member.domain.Member;
@@ -29,15 +30,23 @@ public class PhotoService {
     private final FileService fileService;
 
     public Photo create(PhotoRequest.CreateDTO request) {
-        Optional<Member> member = memberRepository.findById(request.getMemberId());
-        if(member.isEmpty()){
-            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
-        }
+//        Optional<Member> member = memberRepository.findById(request.getMemberId());
+//        if(member.isEmpty()){
+//            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
+//        }
+//
+        Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
         Photo photo = Photo.builder()
-            .member(member.get())
-            .imgUrl(request.getImgUrl())
+            .member(member)
             .build();
-        return photoRepository.save(photo);
+
+        String savedImgUrl = fileService.savePhoto(request.getImgUrl(), member.getId());
+        photo.setImgUrl(savedImgUrl);
+
+        photoRepository.save(photo);
+        member.getPhotos().add(photo);
+
+        return photo;
     }
 
     public Photo createCategory(PhotoRequest.CreateCategoryDTO request) {
@@ -49,13 +58,17 @@ public class PhotoService {
 
         categoryRepository.deleteAll(categories);
 
+        List<Category> photoCategory = photo.get().getCategory();
         for (String category : request.getCategoryList()) {
             Category newCategory = Category.builder()
                 .photo(photo.get())
                 .name(category)
                 .build();
             categoryRepository.save(newCategory);
+
+            photoCategory.add(newCategory);
         }
+
         return photoRepository.save(photo.get());
     }
 

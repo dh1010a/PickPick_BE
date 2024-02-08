@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -27,21 +28,28 @@ public class LocalFileService implements FileService {
 	private String PROFILE_IMG_DIR = "profile\\";
 	private String MEMBER_IMG_DIR = "member\\";
 
-	public LocalFileService(String fileDir) {
-		createDir(fileDir + PROFILE_IMG_DIR);
-		createDir(fileDir + MEMBER_IMG_DIR);
-	}
-
 	@Override
-	public String savePhoto(MultipartFile multipartFile, Photo photo) throws FileException {
-		String filePath = fileDir + MEMBER_IMG_DIR;
+	public String savePhoto(MultipartFile multipartFile, Long memberId) throws FileException {
+		createDir(fileDir + MEMBER_IMG_DIR);
+		String filePath = fileDir + MEMBER_IMG_DIR + memberId;
+		createDir(filePath);
+		
+		filePath +=  "\\" + UUID.randomUUID() + "." + StringUtils.getFilenameExtension(multipartFile.getOriginalFilename()); //확장자 명만 붙임
+
+		try {
+			multipartFile.transferTo(new File(filePath));
+		} catch (IOException e) {
+			throw new FileException(FileExceptionType.FILE_CAN_NOT_SAVE);
+		}
 
 		return filePath;
 	}
 
 	@Override
 	public String saveProfileImg(MultipartFile multipartFile) throws FileException {
-		String filePath = fileDir + PROFILE_IMG_DIR + UUID.randomUUID() + multipartFile.getOriginalFilename();
+		createDir(fileDir + PROFILE_IMG_DIR);
+		String filePath = fileDir + PROFILE_IMG_DIR + UUID.randomUUID() +"."+ StringUtils.getFilenameExtension(multipartFile.getOriginalFilename());
+		System.out.println("filePath = " + filePath);
 		try {
 			multipartFile.transferTo(new File(filePath));
 		} catch (IOException e) {
