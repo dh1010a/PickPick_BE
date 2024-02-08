@@ -1,5 +1,6 @@
 package com.pickpick.server.photo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickpick.server.feed.domain.Feed;
 import com.pickpick.server.member.domain.Member;
 import jakarta.persistence.CascadeType;
@@ -42,6 +43,7 @@ public class Photo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "feed_id")
+    @JsonIgnore
     private Feed feed;
 
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
@@ -49,5 +51,6 @@ public class Photo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
+    @JsonIgnore
     private Member member;
 }

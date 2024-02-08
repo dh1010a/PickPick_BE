@@ -97,12 +97,15 @@ public class Member extends BaseTimeEntity {
 	private List<SharedAlbum> sharedAlbums = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member")
+	@JsonIgnore
 	private List<Feed> feeds = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member")
+	@JsonIgnore
 	private List<Photo> photos = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member")
+	@JsonIgnore
 	private List<Friendship> friendshipList = new ArrayList<>();
 
 	//== 패스워드 암호화 ==//
