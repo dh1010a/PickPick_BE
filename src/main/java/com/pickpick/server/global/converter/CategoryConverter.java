@@ -13,6 +13,7 @@ public class CategoryConverter {
 			FindPhotosDTO findPhotosDTO = FindPhotosDTO.builder()
 					.photoId(p.getId())
 					.imgUrl(p.getImgUrl())
+					.feedId(p.getFeed().getId())
 					.build();
 			dtoList.add(findPhotosDTO);
 		}

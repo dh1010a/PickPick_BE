@@ -15,6 +15,7 @@ public class CategoryResponse {
 
 		private Long photoId;
 		private String imgUrl;
+		private Long feedId;
 
 	}
 

@@ -25,6 +25,7 @@ public class FeedController {
         return ApiResponse.onSuccess(FeedConverter.toCreateDTO(feedService.create(request)));
     }
 
+
     @GetMapping("/feeds/{album_id}")
     public ApiResponse<FeedResponse.GetFeedDTO> getFeed(@PathVariable("album_id") @ExistAlbum Long albumId){
         return ApiResponse.onSuccess(FeedConverter.toGetFeedDTO(feedService.getFeed(albumId)));
