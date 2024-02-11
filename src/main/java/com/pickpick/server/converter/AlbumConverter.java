@@ -1,10 +1,15 @@
 package com.pickpick.server.converter;
 
 import com.pickpick.server.album.domain.Album;
+import com.pickpick.server.album.domain.SharedAlbum;
 import com.pickpick.server.album.dto.AlbumRequest;
 import com.pickpick.server.album.dto.AlbumResponse;
+import com.pickpick.server.album.dto.AlbumResponse.AlbumDto;
+import com.pickpick.server.feed.domain.Feed;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AlbumConverter {
 
@@ -25,9 +30,23 @@ public class AlbumConverter {
 
     public static AlbumResponse.GetAlbumDTO toGetAlbumDTO(List<List<Album>> album){
         return AlbumResponse.GetAlbumDTO.builder()
-            .shareAlbum(album.get(0))
-            .nonShareAlbum(album.get(1))
+            .shareAlbum(toAlbumDtoList(album.get(0)))
+            .nonShareAlbum(toAlbumDtoList(album.get(0)))
             .build();
+    }
+
+    public static List<AlbumResponse.AlbumDto> toAlbumDtoList(List<Album> albums) {
+        List<AlbumResponse.AlbumDto> list = new ArrayList<>();
+        for (Album a : albums) {
+            list.add(AlbumDto.builder()
+                            .id(a.getId())
+                            .name(a.getName())
+                            .titleImgUrl(a.getTitleImgUrl())
+                            .sharedAlbumIds(a.getSharedAlbums().stream().map(SharedAlbum::getId).toList())
+                            .feedIds(a.getFeed().stream().map(Feed::getId).toList())
+                            .build());
+        }
+        return list;
     }
 
     public static AlbumResponse.DeleteAlbumDTO toDeleteAlbumDTO(){

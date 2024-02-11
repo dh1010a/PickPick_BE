@@ -90,6 +90,7 @@ public class AlbumService {
         if(album.isEmpty()){
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
         }
+        sharedAlbumRepository.deleteAll(album.get().getSharedAlbums());
         albumRepository.delete(album.get());
     }
 
