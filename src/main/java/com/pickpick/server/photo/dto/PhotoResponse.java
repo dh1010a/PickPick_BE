@@ -1,6 +1,5 @@
 package com.pickpick.server.photo.dto;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +31,8 @@ public class PhotoResponse {
     @AllArgsConstructor
     public static class GetPhotosDTO {
 
-        private List<String> imgUrlList;
+        private Long photoId;
+        private String imgUrl;
     }
 
     @Builder

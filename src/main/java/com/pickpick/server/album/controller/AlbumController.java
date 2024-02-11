@@ -35,7 +35,7 @@ public class AlbumController {
     }
 
     
-    @DeleteMapping("/album/delete")
+    @DeleteMapping("/album")
     public ApiResponse<AlbumResponse.DeleteAlbumDTO> deleteAlbum(@RequestBody @Valid AlbumRequest.DeleteAlbumDTO request){
         albumService.deleteAlbum(request);
         return ApiResponse.onSuccess(AlbumConverter.toDeleteAlbumDTO());

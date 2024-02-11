@@ -11,20 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class PhotoRequest {
 
     @Data
-    public static class CreateDTO {
+    public static class CreatePhotoDTO {
 
-//        private Long memberId;
         private MultipartFile imgUrl;
-    }
-
-    @Getter
-    public static class CreateCategoryDTO {
-
-        @ExistPhoto
-        private Long photoId;
 
         private List<String> categoryList;
+    }
 
+    @Data
+    public static class findByCategoryDTO {
+        private List<String> categoryList;
     }
 
     @Getter
