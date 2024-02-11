@@ -1,7 +1,7 @@
 package com.pickpick.server.photo.controller;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
-import com.pickpick.server.converter.PhotoConverter;
+import com.pickpick.server.global.converter.PhotoConverter;
 import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.photo.dto.PhotoRequest;
 import com.pickpick.server.photo.dto.PhotoResponse;

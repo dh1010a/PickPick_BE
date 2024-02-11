@@ -1,4 +1,4 @@
-package com.pickpick.server.converter;
+package com.pickpick.server.global.converter;
 
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.photo.dto.PhotoResponse;

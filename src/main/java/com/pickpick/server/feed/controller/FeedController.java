@@ -1,7 +1,7 @@
 package com.pickpick.server.feed.controller;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
-import com.pickpick.server.converter.FeedConverter;
+import com.pickpick.server.global.converter.FeedConverter;
 import com.pickpick.server.feed.dto.FeedRequest;
 import com.pickpick.server.feed.dto.FeedResponse;
 import com.pickpick.server.feed.service.FeedService;
