@@ -29,7 +29,7 @@ public class FirebaseConfig {
     FirebaseMessaging firebaseMessaging() throws IOException{
         //ClassPathResource resource = new ClassPathResource("/src/main/resources/picpick-1947c-firebase-adminsdk-oa23k-d93284724e.json");
         //InputStream refreshToken = resource.getInputStream();
-        FileInputStream refreshToken = new FileInputStream("/src/main/resources/picpick-1947c-firebase-adminsdk-oa23k-d93284724e.json");
+        FileInputStream refreshToken = new FileInputStream("C:\\Users\\dh101\\Desktop\\도현\\대학\\UMC\\pickpick\\src\\main\\resources\\picpick-1947c-firebase-adminsdk-oa23k-d93284724e.json");
 
         FirebaseApp firebaseApp = null;
         List<FirebaseApp> firebaseAppList = FirebaseApp.getApps();
