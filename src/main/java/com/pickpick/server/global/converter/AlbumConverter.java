@@ -1,4 +1,4 @@
-package com.pickpick.server.converter;
+package com.pickpick.server.global.converter;
 
 import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.album.domain.SharedAlbum;
@@ -6,6 +6,8 @@ import com.pickpick.server.album.dto.AlbumRequest;
 import com.pickpick.server.album.dto.AlbumResponse;
 import com.pickpick.server.album.dto.AlbumResponse.AlbumDto;
 import com.pickpick.server.feed.domain.Feed;
+import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +31,12 @@ public class AlbumConverter {
     }
 
     public static AlbumResponse.GetAlbumDTO toGetAlbumDTO(List<List<Album>> album){
+        if (album == null) {
+            throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
+        }
         return AlbumResponse.GetAlbumDTO.builder()
             .shareAlbum(toAlbumDtoList(album.get(0)))
-            .nonShareAlbum(toAlbumDtoList(album.get(0)))
+            .nonShareAlbum(toAlbumDtoList(album.get(1)))
             .build();
     }
 

@@ -1,13 +1,13 @@
 package com.pickpick.server.photo.controller;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
-import com.pickpick.server.converter.PhotoConverter;
+import com.pickpick.server.global.converter.PhotoConverter;
 import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.photo.dto.PhotoRequest;
 import com.pickpick.server.photo.dto.PhotoResponse;
 import com.pickpick.server.photo.service.PhotoService;
-import com.pickpick.server.global.security.util.SecurityUtil;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,19 +22,13 @@ public class PhotoController {
     private final FileService fileService;
 
     @PostMapping("/photo")
-    public ApiResponse<PhotoResponse.CreateDTO> create(PhotoRequest.CreateDTO request) {
-        return ApiResponse.onSuccess(PhotoConverter.toCreateDTO(photoService.create(request)));
-    }
-
-    @PostMapping("/photo/category")
-    public ApiResponse<PhotoResponse.CreateCategoryDTO> createCategory(@RequestBody @Valid PhotoRequest.CreateCategoryDTO request){
-        return ApiResponse.onSuccess(PhotoConverter.toCreateCategoryDTO(photoService.createCategory(request)));
+    public ApiResponse<PhotoResponse.CreateDTO> create(PhotoRequest.CreatePhotoDTO request) {
+        return ApiResponse.onSuccess(PhotoConverter.toCreateDTO(photoService.createPhoto(request)));
     }
 
     @GetMapping("/photos")
-    public ApiResponse<PhotoResponse.GetPhotosDTO> getPhotos(){
-        String memberEmail = SecurityUtil.getLoginEmail();
-        return ApiResponse.onSuccess(PhotoConverter.toGetPhotosDTO(photoService.getPhotos(memberEmail)));
+    public ApiResponse<List<PhotoResponse.GetPhotosDTO>> getPhotos(){
+        return ApiResponse.onSuccess(PhotoConverter.toGetPhotosDTO(photoService.getPhotos()));
     }
 
     @PostMapping("/photo/update")

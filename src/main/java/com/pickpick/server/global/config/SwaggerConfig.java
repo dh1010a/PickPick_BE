@@ -1,4 +1,4 @@
-package com.pickpick.server.config;
+package com.pickpick.server.global.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

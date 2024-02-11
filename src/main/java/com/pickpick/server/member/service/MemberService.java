@@ -1,6 +1,6 @@
 package com.pickpick.server.member.service;
 
-import static com.pickpick.server.config.SecurityConfig.passwordEncoder;
+import static com.pickpick.server.global.config.SecurityConfig.passwordEncoder;
 
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;

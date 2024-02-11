@@ -3,7 +3,7 @@ package com.pickpick.server.member.controller;
 import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
-import com.pickpick.server.converter.MemberDtoConverter;
+import com.pickpick.server.global.converter.MemberDtoConverter;
 import com.pickpick.server.member.dto.MemberDto;
 import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;

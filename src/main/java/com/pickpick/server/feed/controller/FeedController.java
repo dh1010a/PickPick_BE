@@ -1,7 +1,7 @@
 package com.pickpick.server.feed.controller;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
-import com.pickpick.server.converter.FeedConverter;
+import com.pickpick.server.global.converter.FeedConverter;
 import com.pickpick.server.feed.dto.FeedRequest;
 import com.pickpick.server.feed.dto.FeedResponse;
 import com.pickpick.server.feed.service.FeedService;
@@ -24,6 +24,7 @@ public class FeedController {
     public ApiResponse<FeedResponse.CreateDTO> create(@RequestBody @Valid FeedRequest.CreateDTO request){
         return ApiResponse.onSuccess(FeedConverter.toCreateDTO(feedService.create(request)));
     }
+
 
     @GetMapping("/feeds/{album_id}")
     public ApiResponse<FeedResponse.GetFeedDTO> getFeed(@PathVariable("album_id") @ExistAlbum Long albumId){

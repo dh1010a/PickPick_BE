@@ -5,7 +5,7 @@ import com.pickpick.server.album.dto.AlbumRequest.UpdateAlbumDTO;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
-import com.pickpick.server.converter.AlbumConverter;
+import com.pickpick.server.global.converter.AlbumConverter;
 import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.album.domain.SharedAlbum;
 import com.pickpick.server.member.domain.Member;

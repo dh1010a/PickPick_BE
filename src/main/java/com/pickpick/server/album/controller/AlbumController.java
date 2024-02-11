@@ -1,9 +1,7 @@
 package com.pickpick.server.album.controller;
 
-import com.pickpick.server.album.domain.SharedAlbum;
-import com.pickpick.server.album.repository.SharedAlbumRepository;
 import com.pickpick.server.global.apiPayload.ApiResponse;
-import com.pickpick.server.converter.AlbumConverter;
+import com.pickpick.server.global.converter.AlbumConverter;
 import com.pickpick.server.album.dto.AlbumRequest;
 import com.pickpick.server.album.dto.AlbumResponse;
 import com.pickpick.server.album.service.AlbumService;
@@ -35,7 +33,7 @@ public class AlbumController {
     }
 
     
-    @DeleteMapping("/album/delete")
+    @DeleteMapping("/album")
     public ApiResponse<AlbumResponse.DeleteAlbumDTO> deleteAlbum(@RequestBody @Valid AlbumRequest.DeleteAlbumDTO request){
         albumService.deleteAlbum(request);
         return ApiResponse.onSuccess(AlbumConverter.toDeleteAlbumDTO());

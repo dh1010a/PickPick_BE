@@ -47,7 +47,8 @@ public class Photo {
     private Feed feed;
 
     @OneToMany(mappedBy = "photo", cascade = CascadeType.ALL)
-    private List<Category> category = new ArrayList<>();
+    @JsonIgnore
+    private List<PhotoCategory> photoCategories = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
