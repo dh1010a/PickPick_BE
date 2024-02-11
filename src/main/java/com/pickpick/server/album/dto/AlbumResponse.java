@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,14 +21,27 @@ public class AlbumResponse {
     }
 
     @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AlbumDto {
+        private Long id;
+        private String name;
+        private LocalDate createdAt;
+        private String titleImgUrl;
+        private List<Long> sharedAlbumIds;
+        private List<Long> feedIds;
+    }
+
+    @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
     public static class GetAlbumDTO {
 
-        private List<Album> shareAlbum;
+        private List<AlbumDto> shareAlbum;
 
-        private List<Album> nonShareAlbum;
+        private List<AlbumDto> nonShareAlbum;
     }
 
     @Builder
