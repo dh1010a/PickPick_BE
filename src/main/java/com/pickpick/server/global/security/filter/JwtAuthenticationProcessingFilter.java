@@ -1,5 +1,7 @@
 package com.pickpick.server.global.security.filter;
 
+import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
+import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.member.repository.MemberRepository;
 import com.pickpick.server.global.security.domain.UserDetailsImpl;
@@ -9,7 +11,9 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
@@ -18,6 +22,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
@@ -82,11 +87,13 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 		SecurityContextHolder.setContext(context);
 	}
 
-	private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
-		memberRepository.findByRefreshToken(refreshToken).ifPresent(
-				users -> jwtService.sendAccessToken(response, jwtService.createAccessToken(users.getEmail()))
-		);
+	private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken){
+		System.out.println("refreshToken = " + refreshToken);
+		//memberRepository.findByEmail("spring@naver.com").ifPresent(member -> jwtService.sendAccessToken(response, jwtService.createAccessToken(member.getEmail())));
+		memberRepository.findByRefreshToken(refreshToken).ifPresent(member -> jwtService.sendAccessToken(response, jwtService.createAccessToken(member.getEmail())));
+	}
 
-
+	private void pr(Member st) {
+		System.out.println(st);
 	}
 }

@@ -7,17 +7,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import java.io.IOException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+	@Autowired
 	private final JwtService jwtService;
+	@Autowired
 	private final MemberRepository memberRepository;
 
 	@Override
@@ -29,7 +34,7 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
 
 		jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 		memberRepository.findByEmail(email).ifPresent(
-				users -> users.updateRefreshToken(refreshToken)
+				member -> member.updateRefreshToken(refreshToken)
 		);
 
 		log.info( "로그인에 성공합니다. email: {}" , email);

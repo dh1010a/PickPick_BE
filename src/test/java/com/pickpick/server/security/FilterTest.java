@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class JwtFilterAuthenticationTest {
+public class FilterTest {
 
 	@Autowired
 	MockMvc mockMvc;
@@ -82,8 +82,8 @@ public class JwtFilterAuthenticationTest {
 
 
 	@BeforeEach
-	private void init() {
-		memberService.save(MemberRequestDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
+	private void init() throws Exception{
+		memberService.save(MemberRequestDto.MemberSignupDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
@@ -135,7 +135,7 @@ public class JwtFilterAuthenticationTest {
 	 * RefreshToken : 유효
 	 */
 	@Test
-	public void 유효한RefreshToken만_보내서_AccessToken_재발급_200() throws Exception {
+	public void 유효한RefreshToken_재발급_200() throws Exception {
 		//given
 		Map accessAndRefreshToken = getAccessAndRefreshToken();
 		String refreshToken= (String) accessAndRefreshToken.get(refreshHeader);

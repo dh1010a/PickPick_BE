@@ -61,8 +61,8 @@ public class LoginTest {
 
 
 	@BeforeEach
-	private void init() {
-		memberService.save(MemberRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+	private void init() throws Exception{
+		memberService.save(MemberRequestDto.MemberSignupDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
