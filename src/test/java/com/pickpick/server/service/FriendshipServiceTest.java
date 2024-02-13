@@ -62,10 +62,10 @@ class FriendshipServiceTest {
 	private static String REQUEST_URL = "/users/request/dh1010a2@naver.com";
 
 	@BeforeEach
-	private void init() {
-		memberService.save(MemberRequestDto.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
+	private void init() throws Exception{
+		memberService.save(MemberRequestDto.MemberSignupDto.builder().name("도현").email(USERNAME).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
-		memberService.save(MemberRequestDto.builder().name("도현2").email("dh1010a2@naver.com").password("1234").phoneNum("01054888")
+		memberService.save(MemberRequestDto.MemberSignupDto.builder().name("도현").email("dh1010a2@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}

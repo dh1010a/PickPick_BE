@@ -38,7 +38,7 @@ class MemberRepositoryTest {
 	@Test
 	public void 회원저장_성공() throws Exception{
 		//given
-		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888").createdAt(LocalDate.now())
+		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		//when
 		Member saveUser = memberRepository.save(user);
@@ -53,7 +53,7 @@ class MemberRepositoryTest {
 	@Test
 	public void 이메일없이_가입시_오류() throws Exception{
 		//given
-		Member user = Member.builder().createdAt(LocalDate.now())
+		Member user = Member.builder()
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		//then
 		assertThrows(Exception.class, () -> memberRepository.save(user));
@@ -62,7 +62,7 @@ class MemberRepositoryTest {
 	@Test
 	public void 비밀번호없이_가입시_오류() throws Exception{
 		//given
-		Member user = Member.builder().name("도현").email("dh1010a@naver.com").phoneNum("01054888").createdAt(LocalDate.now())
+		Member user = Member.builder().name("도현").email("dh1010a@naver.com").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		//then
 		assertThrows(Exception.class, () -> memberRepository.save(user));
@@ -71,9 +71,9 @@ class MemberRepositoryTest {
 	@Test
 	public void 회원가입시_이메일중복_오류() throws Exception{
 		//given
-		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888").createdAt(LocalDate.now())
+		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
-		Member user2 = Member.builder().name("현수").email("dh1010a@naver.com").password("0000").phoneNum("01054888").createdAt(LocalDate.now())
+		Member user2 = Member.builder().name("현수").email("dh1010a@naver.com").password("0000").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 
 
@@ -87,7 +87,7 @@ class MemberRepositoryTest {
 	@Test
 	public void 회원삭제_성공() throws Exception{
 		//given
-		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888").createdAt(LocalDate.now())
+		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		memberRepository.save(user);
 		clear();
@@ -102,7 +102,7 @@ class MemberRepositoryTest {
 	public void existByPhoneNum_성공() throws Exception {
 		//given
 		String phoneNum = "01054888620";
-		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum(phoneNum).createdAt(LocalDate.now())
+		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum(phoneNum)
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		memberRepository.save(user);
 		clear();
@@ -116,7 +116,7 @@ class MemberRepositoryTest {
 	public void findByPhoneNum_성공() throws Exception{
 		//given
 		String phoneNum = "01054888620";
-		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum(phoneNum).createdAt(LocalDate.now())
+		Member user = Member.builder().name("도현").email("dh1010a@naver.com").password("1234").phoneNum(phoneNum)
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build();
 		memberRepository.save(user);
 		clear();

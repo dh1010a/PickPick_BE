@@ -55,8 +55,8 @@ class JwtServiceTest {
 	private String email = "dh1010a@naver.com";
 
 	@BeforeEach
-	public void init() {
-		memberService.save(MemberRequestDto.builder().name("도현").email(email).password("1234").phoneNum("01054888")
+	public void init() throws Exception{
+		memberService.save(MemberRequestDto.MemberSignupDto.builder().name("도현").email(email).password("1234").phoneNum("01054888")
 				.publicStatus(PublicStatus.PUBLIC).shareStatus(ShareStatus.SHAREABLE).build());
 		clear();
 	}
@@ -257,6 +257,7 @@ class JwtServiceTest {
 
 		return httpServletRequest;
 	}
+
 
 	private void clear() {
 		em.flush();

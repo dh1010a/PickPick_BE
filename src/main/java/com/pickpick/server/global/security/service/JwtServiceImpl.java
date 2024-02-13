@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -99,7 +100,7 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 	@Override
-	public void sendAccessToken(HttpServletResponse response, String accessToken) {
+	public void sendAccessToken(@NotNull HttpServletResponse response, String accessToken) {
 		response.setStatus(HttpServletResponse.SC_OK);
 
 		setAccessTokenHeader(response, accessToken);
