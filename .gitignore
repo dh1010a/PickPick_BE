@@ -39,3 +39,5 @@ out/
 *.yml
 SecurityConfig.java
 picpick-1947c-firebase-adminsdk-oa23k-d93284724e.json
+application-aws.yml
+application-jwt.yml
