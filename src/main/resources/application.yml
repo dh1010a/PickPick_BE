@@ -5,10 +5,11 @@ spring:
       fail-on-empty-beans: false
 
   profiles:
-    include: jwt #jwt.yml 불러오기
+    include: jwt, aws #jwt.yml 불러오기
   h2:
     console:
       enabled: true
+
 
 
   jpa:
@@ -22,6 +23,15 @@ spring:
   devtools:
     restart:
       enabled: false
+
+  datasource:
+    url: jdbc:mysql://pickpickdb.cyvzvqw3b97a.ap-northeast-2.rds.amazonaws.com:3306/test
+    username: root
+    password: pickpick
+
+
+
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.orm.jdbc.bind: trace #??? ?? 3.x, hibernate6
