@@ -7,6 +7,7 @@ import com.pickpick.server.photo.dto.PhotoRequest;
 import com.pickpick.server.photo.dto.PhotoResponse;
 import com.pickpick.server.photo.service.PhotoService;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class PhotoController {
     private final FileService fileService;
 
     @PostMapping("/photo")
-    public ApiResponse<PhotoResponse.CreateDTO> create(PhotoRequest.CreatePhotoDTO request) {
+    public ApiResponse<PhotoResponse.CreateDTO> create(PhotoRequest.CreatePhotoDTO request) throws IOException, Exception {
         return ApiResponse.onSuccess(PhotoConverter.toCreateDTO(photoService.createPhoto(request)));
     }
 
