@@ -5,6 +5,7 @@ import static com.pickpick.server.global.config.SecurityConfig.passwordEncoder;
 import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
+import com.pickpick.server.global.util.SecurityUtil;
 import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.member.domain.enums.PublicStatus;
 import com.pickpick.server.member.domain.enums.ShareStatus;
@@ -17,7 +18,6 @@ import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberRequestDto.UpdateMemberRequestDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.repository.MemberRepository;
-import com.pickpick.server.global.security.util.SecurityUtil;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
