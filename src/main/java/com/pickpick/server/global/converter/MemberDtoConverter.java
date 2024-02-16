@@ -36,4 +36,9 @@ public class MemberDtoConverter {
 			.isDuplicate(isDuplicate)
 			.build();
 	}
+	public static MemberResponseDto.DeleteDTO toDeleteDTOConverter(Long userId){
+		return MemberResponseDto.DeleteDTO.builder()
+			.id(userId)
+			.build();
+	}
 }

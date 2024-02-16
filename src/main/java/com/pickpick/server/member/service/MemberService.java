@@ -8,6 +8,7 @@ import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.member.domain.enums.PublicStatus;
 import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.domain.enums.Status;
 import com.pickpick.server.member.dto.MemberDto;
 import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.global.file.exception.FileException;
@@ -16,7 +17,9 @@ import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberRequestDto.UpdateMemberRequestDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.repository.MemberRepository;
-import com.pickpick.server.global.util.SecurityUtil;
+import com.pickpick.server.global.security.util.SecurityUtil;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,6 +57,12 @@ public class MemberService {
 		return id;
 	}
 
+	public Long delete(MemberRequestDto.DeleteDTO request){
+		Member member = memberRepository.findById(request.getId()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));;
+
+		member.setStatus(Status.DELETE);
+		return memberRepository.save(member).getId();
+	}
 	public boolean isDuplicated(MemberRequestDto.EmailCheckRequestDto request){
 		if (isExistByEmail(request.getEmail())) {
 			return true;

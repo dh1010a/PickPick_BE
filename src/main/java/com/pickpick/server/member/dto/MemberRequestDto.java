@@ -29,6 +29,11 @@ public class MemberRequestDto {
 	}
 
 	@Getter
+	public static class DeleteDTO{
+		private Long id;
+		private String password;
+	}
+	@Getter
 	public static class IsDuplicateDTO{
 		private boolean isDuplicate;
 	}

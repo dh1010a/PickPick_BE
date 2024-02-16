@@ -4,18 +4,24 @@ package com.pickpick.server.member.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pickpick.server.feed.domain.Feed;
 import com.pickpick.server.global.common.BaseTimeEntity;
+import com.pickpick.server.member.domain.enums.Status;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.album.domain.SharedAlbum;
 import com.pickpick.server.member.domain.enums.PublicStatus;
 import com.pickpick.server.member.domain.enums.ShareStatus;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @Table(name = "Member")
@@ -49,6 +55,12 @@ public class Member extends BaseTimeEntity {
 	@Enumerated(EnumType.STRING)
 	private ShareStatus shareStatus;
 
+
+	@Enumerated(EnumType.STRING)
+	@ColumnDefault("ACTIVE")
+	private Status status;
+
+	private LocalDateTime deleteAt;
 
 	//== 수정 로직 ==/
 
