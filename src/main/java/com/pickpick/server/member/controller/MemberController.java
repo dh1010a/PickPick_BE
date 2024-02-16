@@ -11,6 +11,7 @@ import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberResponseDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
+import com.pickpick.server.member.dto.MemberResponseDto.SignupResponseDto;
 import com.pickpick.server.member.service.FriendshipService;
 import com.pickpick.server.member.service.MemberService;
 import com.pickpick.server.global.util.SecurityUtil;
@@ -41,10 +42,11 @@ public class MemberController {
 
 	@PostMapping("/signup")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<String> signUp(@Valid @RequestBody MemberRequestDto.CreateMemberRequestDto request) throws Exception {
+	public ApiResponse<MemberResponseDto.SignupResponseDto> signUp(@Valid @RequestBody MemberRequestDto.CreateMemberRequestDto request) throws Exception {
 		MemberSignupDto memberSignupDto = MemberDtoConverter.convertToUserSignupDto(request);
 		memberService.save(memberSignupDto);
-		return ApiResponse.onSuccess("가입 email: " + memberSignupDto.getEmail());
+		SignupResponseDto signupResponseDto = SignupResponseDto.builder().email(memberSignupDto.getEmail()).isSuccess(true).build();
+		return ApiResponse.onSuccess(signupResponseDto);
 	}
 
 	@PostMapping(value = "/member/img")
@@ -54,8 +56,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/isDuplicated")
-	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<MemberResponseDto.IsDuplicateDTO> isDuplicated(@Valid @RequestBody MemberRequestDto.EmailCheckRequestDto request) {
+	public ApiResponse<MemberResponseDto.IsDuplicateDTO> isDuplicated(@Valid @RequestBody MemberRequestDto.EmailCheckRequestDto request) throws Exception{
 		return ApiResponse.onSuccess(toIsDuplicateDTO(memberService.isDuplicated(request)));
 	}
 
