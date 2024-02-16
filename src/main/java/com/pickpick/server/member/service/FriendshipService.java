@@ -7,7 +7,7 @@ import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.member.domain.enums.FriendshipStatus;
 import com.pickpick.server.member.repository.FriendshipRepository;
 import com.pickpick.server.member.repository.MemberRepository;
-import com.pickpick.server.global.security.util.SecurityUtil;
+import com.pickpick.server.global.util.SecurityUtil;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;

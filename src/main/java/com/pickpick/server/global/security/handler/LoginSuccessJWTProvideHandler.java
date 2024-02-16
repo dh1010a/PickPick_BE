@@ -1,10 +1,13 @@
 package com.pickpick.server.global.security.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pickpick.server.global.security.service.JwtService;
 import com.pickpick.server.member.repository.MemberRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
 	private final JwtService jwtService;
 	@Autowired
 	private final MemberRepository memberRepository;
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -41,11 +45,28 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
 		log.info( "AccessToken 을 발급합니다. AccessToken: {}" ,accessToken);
 		log.info( "RefreshToken 을 발급합니다. RefreshToken: {}" ,refreshToken);
 
-		response.getWriter().write("success");
+		response.setContentType("application/json");
+		response.setCharacterEncoding("utf-8");
+
+		LoginDto loginDto = LoginDto.builder()
+				.email(email)
+				.accessToken(accessToken)
+				.refreshToken(refreshToken)
+				.build();
+
+		response.getWriter().write(objectMapper.writeValueAsString(loginDto));
 	}
 
 	private String extractEmail(Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		return userDetails.getUsername();
+	}
+
+	@Data
+	@Builder
+	static class LoginDto {
+		public String email;
+		public String accessToken;
+		public String refreshToken;
 	}
 }

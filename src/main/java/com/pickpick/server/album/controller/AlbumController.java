@@ -5,7 +5,7 @@ import com.pickpick.server.global.converter.AlbumConverter;
 import com.pickpick.server.album.dto.AlbumRequest;
 import com.pickpick.server.album.dto.AlbumResponse;
 import com.pickpick.server.album.service.AlbumService;
-import com.pickpick.server.global.security.util.SecurityUtil;
+import com.pickpick.server.global.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
