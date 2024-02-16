@@ -63,11 +63,11 @@ public class MemberService {
 		member.setStatus(Status.DELETE);
 		return memberRepository.save(member).getId();
 	}
-	public boolean isDuplicated(MemberRequestDto.EmailCheckRequestDto request){
+	public String isDuplicated(MemberRequestDto.EmailCheckRequestDto request){
 		if (isExistByEmail(request.getEmail())) {
-			return true;
+			return "true";
 		}
-		return false;
+		return "false";
 	}
 
 	public boolean isExistByEmail(String email) {

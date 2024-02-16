@@ -31,10 +31,11 @@ public class MemberDtoConverter {
 		}
 		return memberSignupDto;
 	}
-	public static MemberResponseDto.IsDuplicateDTO toIsDuplicateDTO(boolean isDuplicate){
-		return MemberResponseDto.IsDuplicateDTO.builder()
-			.isDuplicate(isDuplicate)
-			.build();
+	public static MemberResponseDto.IsDuplicateDTO toIsDuplicateDTO(String isDuplicate){
+		if (isDuplicate.equals("true")) {
+			return IsDuplicateDTO.builder().isDuplicate(true).build();
+		}
+		return IsDuplicateDTO.builder().isDuplicate(false).build();
 	}
 	public static MemberResponseDto.DeleteDTO toDeleteDTOConverter(Long userId){
 		return MemberResponseDto.DeleteDTO.builder()
