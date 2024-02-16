@@ -1,4 +1,4 @@
-package com.pickpick.server.global.security.util;
+package com.pickpick.server.global.util;
 
 import com.pickpick.server.global.security.domain.UserDetailsImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
