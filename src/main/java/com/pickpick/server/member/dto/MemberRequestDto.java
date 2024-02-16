@@ -7,6 +7,7 @@ import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +26,11 @@ public class MemberRequestDto {
 		private Optional<MultipartFile> uploadImg;
 		private PublicStatus publicStatus;
 		private ShareStatus shareStatus;
+	}
+
+	@Getter
+	public static class IsDuplicateDTO{
+		private boolean isDuplicate;
 	}
 
 	@Data
@@ -56,4 +62,11 @@ public class MemberRequestDto {
 	}
 
 
+	@Data
+	@Builder
+	@Getter
+	public static class EmailCheckRequestDto {
+		@NotEmpty
+		private String email;
+	}
 }

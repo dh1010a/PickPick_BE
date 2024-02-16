@@ -1,10 +1,14 @@
 package com.pickpick.server.global.converter;
 
 
+import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.member.domain.enums.PublicStatus;
 import com.pickpick.server.member.domain.enums.ShareStatus;
+import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.CreateMemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
+import com.pickpick.server.member.dto.MemberResponseDto;
+import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 
 public class MemberDtoConverter {
 
@@ -26,5 +30,10 @@ public class MemberDtoConverter {
 			memberSignupDto.setShareStatus(ShareStatus.SHAREABLE);
 		}
 		return memberSignupDto;
+	}
+	public static MemberResponseDto.IsDuplicateDTO toIsDuplicateDTO(boolean isDuplicate){
+		return MemberResponseDto.IsDuplicateDTO.builder()
+			.isDuplicate(isDuplicate)
+			.build();
 	}
 }

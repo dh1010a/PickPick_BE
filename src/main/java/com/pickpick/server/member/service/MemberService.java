@@ -2,6 +2,7 @@ package com.pickpick.server.member.service;
 
 import static com.pickpick.server.global.config.SecurityConfig.passwordEncoder;
 
+import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
 import com.pickpick.server.member.domain.Member;
@@ -10,8 +11,10 @@ import com.pickpick.server.member.domain.enums.ShareStatus;
 import com.pickpick.server.member.dto.MemberDto;
 import com.pickpick.server.global.file.FileService;
 import com.pickpick.server.global.file.exception.FileException;
+import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberRequestDto.UpdateMemberRequestDto;
+import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.repository.MemberRepository;
 import com.pickpick.server.global.security.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +52,13 @@ public class MemberService {
 
 
 		return id;
+	}
+
+	public boolean isDuplicated(MemberRequestDto.EmailCheckRequestDto request){
+		if (isExistByEmail(request.getEmail())) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isExistByEmail(String email) {

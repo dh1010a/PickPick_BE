@@ -1,5 +1,7 @@
 package com.pickpick.server.member.controller;
 
+import static com.pickpick.server.global.converter.MemberDtoConverter.toIsDuplicateDTO;
+
 import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
@@ -7,12 +9,16 @@ import com.pickpick.server.global.converter.MemberDtoConverter;
 import com.pickpick.server.member.dto.MemberDto;
 import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
+import com.pickpick.server.member.dto.MemberResponseDto;
+import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.service.FriendshipService;
 import com.pickpick.server.member.service.MemberService;
 import com.pickpick.server.global.security.util.SecurityUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,11 +55,8 @@ public class MemberController {
 
 	@PostMapping("/member/isDuplicated")
 	@ResponseStatus(HttpStatus.OK)
-	public boolean isDuplicated(@Valid @RequestBody EmailCheckRequestDto request) {
-		if (memberService.isExistByEmail(request.getEmail())) {
-			return true;
-		}
-		return false;
+	public ApiResponse<MemberResponseDto.IsDuplicateDTO> isDuplicated(@Valid @RequestBody MemberRequestDto.EmailCheckRequestDto request) {
+		return ApiResponse.onSuccess(toIsDuplicateDTO(memberService.isDuplicated(request)));
 	}
 
 	@GetMapping("/member/{email}")
@@ -109,6 +112,7 @@ public class MemberController {
 	}
 
 
+
 	@Data
 	static class userDeleteDto {
 		private String password;
@@ -128,10 +132,6 @@ public class MemberController {
 	}
 
 
-	@Data
-	static class EmailCheckRequestDto {
-		@NotEmpty
-		private String email;
-	}
+
 
 }

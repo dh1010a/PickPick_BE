@@ -1,6 +1,9 @@
 package com.pickpick.server.feed.service;
 
 import com.pickpick.server.feed.dto.FeedRequest.CreateDTO;
+import com.pickpick.server.feed.dto.FeedRequest.DeleteFeedDTO;
+import com.pickpick.server.feed.dto.FeedRequest.UpdateFeedDTO;
+import com.pickpick.server.feed.repository.FeedRepository;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.AlbumHandler;
 import com.pickpick.server.global.apiPayload.exception.handler.FeedHandler;
@@ -10,12 +13,9 @@ import com.pickpick.server.album.domain.Album;
 import com.pickpick.server.feed.domain.Feed;
 import com.pickpick.server.photo.domain.Photo;
 import com.pickpick.server.member.domain.Member;
-import com.pickpick.server.feed.dto.FeedRequest;
 import com.pickpick.server.album.repository.AlbumRepository;
-import com.pickpick.server.feed.repository.FeedRepository;
 import com.pickpick.server.photo.repository.PhotoRepository;
 import com.pickpick.server.member.repository.MemberRepository;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +78,7 @@ public class FeedService {
         return feedIdList;
     }
 
-    public Feed updateFeed(FeedRequest.UpdateFeedDTO request){
+    public Feed updateFeed(UpdateFeedDTO request){
         Optional<Feed> feed = feedRepository.findById(request.getFeedId());
         if(feed.isEmpty()){
             throw new FeedHandler(ErrorStatus.FEED_NOT_FOUND);
@@ -87,7 +87,7 @@ public class FeedService {
         return feedRepository.save(feed.get());
     }
 
-    public void deleteFeed(FeedRequest.DeleteFeedDTO request){
+    public void deleteFeed(DeleteFeedDTO request){
         Optional<Feed> feed = feedRepository.findById(request.getFeedId());
         if(feed.isEmpty()){
             throw new FeedHandler(ErrorStatus.FEED_NOT_FOUND);
