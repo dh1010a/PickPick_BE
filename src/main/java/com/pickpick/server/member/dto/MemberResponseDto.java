@@ -10,8 +10,6 @@ public class MemberResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class IsDuplicateDTO{
         private boolean isDuplicate;
     }

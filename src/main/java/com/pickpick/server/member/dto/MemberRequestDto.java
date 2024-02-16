@@ -70,6 +70,8 @@ public class MemberRequestDto {
 	@Data
 	@Builder
 	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class EmailCheckRequestDto {
 		@NotEmpty
 		private String email;
