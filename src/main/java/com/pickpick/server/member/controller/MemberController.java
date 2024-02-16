@@ -1,5 +1,6 @@
 package com.pickpick.server.member.controller;
 
+import static com.pickpick.server.global.converter.MemberDtoConverter.toDeleteDTOConverter;
 import static com.pickpick.server.global.converter.MemberDtoConverter.toIsDuplicateDTO;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
@@ -11,7 +12,6 @@ import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberResponseDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
-import com.pickpick.server.member.dto.MemberResponseDto.SignupResponseDto;
 import com.pickpick.server.member.service.FriendshipService;
 import com.pickpick.server.member.service.MemberService;
 import com.pickpick.server.global.util.SecurityUtil;
@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,11 +43,10 @@ public class MemberController {
 
 	@PostMapping("/signup")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<MemberResponseDto.SignupResponseDto> signUp(@Valid @RequestBody MemberRequestDto.CreateMemberRequestDto request) throws Exception {
+	public ApiResponse<String> signUp(@Valid @RequestBody MemberRequestDto.CreateMemberRequestDto request) throws Exception {
 		MemberSignupDto memberSignupDto = MemberDtoConverter.convertToUserSignupDto(request);
 		memberService.save(memberSignupDto);
-		SignupResponseDto signupResponseDto = SignupResponseDto.builder().email(memberSignupDto.getEmail()).isSuccess(true).build();
-		return ApiResponse.onSuccess(signupResponseDto);
+		return ApiResponse.onSuccess("가입 email: " + memberSignupDto.getEmail());
 	}
 
 	@PostMapping(value = "/member/img")
@@ -112,6 +112,10 @@ public class MemberController {
 		return friendshipService.approveFriendshipRequest(friendshipId);
 	}
 
+	@PatchMapping("/member/delete")
+	public ApiResponse<MemberResponseDto.DeleteDTO> delete(@Valid @RequestBody MemberRequestDto.DeleteDTO request){
+		return ApiResponse.onSuccess(toDeleteDTOConverter(memberService.delete(request)));
+	}
 
 
 	@Data
