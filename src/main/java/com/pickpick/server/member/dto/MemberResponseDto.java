@@ -2,6 +2,7 @@ package com.pickpick.server.member.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,13 @@ public class MemberResponseDto {
     @AllArgsConstructor
     public static class IsDuplicateDTO{
         private boolean isDuplicate;
+    }
+
+    @Data
+    @Builder
+    public static class SignupResponseDto{
+        private String email;
+        private boolean isSuccess;
     }
 
     @Builder

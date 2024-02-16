@@ -56,8 +56,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/isDuplicated")
-	//@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<MemberResponseDto.IsDuplicateDTO> isDuplicated(@Valid @RequestBody MemberRequestDto.EmailCheckRequestDto request) {
+	public ApiResponse<MemberResponseDto.IsDuplicateDTO> isDuplicated(@Valid @RequestBody MemberRequestDto.EmailCheckRequestDto request) throws Exception{
 		return ApiResponse.onSuccess(toIsDuplicateDTO(memberService.isDuplicated(request)));
 	}
 
@@ -79,11 +78,11 @@ public class MemberController {
 		return ApiResponse.onSuccess("회원정보 수정에 성공하였습니다.");
 	}
 
-//	@DeleteMapping("/member")
-//	public ApiResponse<String> deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
-//		memberService.deleteMember(userDeleteDto.getPassword(), SecurityUtil.getLoginEmail());
-//		return ApiResponse.onSuccess("회원 탈퇴에 성공하였습니다.");
-//	}
+	@DeleteMapping("/member")
+	public ApiResponse<String> deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
+		memberService.deleteMember(userDeleteDto.getPassword(), SecurityUtil.getLoginEmail());
+		return ApiResponse.onSuccess("회원 탈퇴에 성공하였습니다.");
+	}
 
 	@PostMapping("/member/friends/{email}")
 	@ResponseStatus(HttpStatus.OK)
