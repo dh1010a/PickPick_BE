@@ -1,5 +1,6 @@
 package com.pickpick.server.member.controller;
 
+import static com.pickpick.server.global.converter.MemberDtoConverter.toDeleteDTOConverter;
 import static com.pickpick.server.global.converter.MemberDtoConverter.toIsDuplicateDTO;
 
 import com.pickpick.server.global.apiPayload.ApiResponse;
@@ -24,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,7 +56,7 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/isDuplicated")
-	@ResponseStatus(HttpStatus.OK)
+	//@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<MemberResponseDto.IsDuplicateDTO> isDuplicated(@Valid @RequestBody MemberRequestDto.EmailCheckRequestDto request) {
 		return ApiResponse.onSuccess(toIsDuplicateDTO(memberService.isDuplicated(request)));
 	}
@@ -77,11 +79,11 @@ public class MemberController {
 		return ApiResponse.onSuccess("회원정보 수정에 성공하였습니다.");
 	}
 
-	@DeleteMapping("/member")
-	public ApiResponse<String> deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
-		memberService.deleteMember(userDeleteDto.getPassword(), SecurityUtil.getLoginEmail());
-		return ApiResponse.onSuccess("회원 탈퇴에 성공하였습니다.");
-	}
+//	@DeleteMapping("/member")
+//	public ApiResponse<String> deleteUser(@Valid @RequestBody userDeleteDto userDeleteDto) throws Exception {
+//		memberService.deleteMember(userDeleteDto.getPassword(), SecurityUtil.getLoginEmail());
+//		return ApiResponse.onSuccess("회원 탈퇴에 성공하였습니다.");
+//	}
 
 	@PostMapping("/member/friends/{email}")
 	@ResponseStatus(HttpStatus.OK)
@@ -111,6 +113,10 @@ public class MemberController {
 		return friendshipService.approveFriendshipRequest(friendshipId);
 	}
 
+	@PatchMapping("/member/delete")
+	public ApiResponse<MemberResponseDto.DeleteDTO> delete(@Valid @RequestBody MemberRequestDto.DeleteDTO request){
+		return ApiResponse.onSuccess(toDeleteDTOConverter(memberService.delete(request)));
+	}
 
 
 	@Data
