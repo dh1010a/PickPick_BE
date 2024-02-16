@@ -20,12 +20,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Getter
 @Builder
+@Setter
 @AllArgsConstructor
+@DynamicInsert
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Category {
 
     @Id

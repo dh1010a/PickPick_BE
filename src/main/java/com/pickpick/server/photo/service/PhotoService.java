@@ -1,5 +1,6 @@
 package com.pickpick.server.photo.service;
 
+import com.pickpick.server.category.repository.CategoryRepository;
 import com.pickpick.server.category.service.CategoryService;
 import com.pickpick.server.global.apiPayload.code.status.ErrorStatus;
 import com.pickpick.server.global.apiPayload.exception.handler.MemberHandler;
@@ -13,6 +14,8 @@ import com.pickpick.server.photo.dto.PhotoRequest;
 import com.pickpick.server.photo.repository.PhotoCategoryRepository;
 import com.pickpick.server.photo.repository.PhotoRepository;
 import com.pickpick.server.member.repository.MemberRepository;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,20 +30,23 @@ public class PhotoService {
     private final PhotoCategoryRepository photoCategoryRepository;
     private final PhotoRepository photoRepository;
     private final MemberRepository memberRepository;
+    private final CategoryRepository categoryRepository;
     private final FileService fileService;
 
-    public Photo createPhoto(PhotoRequest.CreatePhotoDTO request) {
+    public Photo createPhoto(PhotoRequest.CreatePhotoDTO request) throws IOException, Exception{
         Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
         Photo photo = Photo.builder()
                 .member(member)
+                .photoCategories(new ArrayList<>())
                 .build();
         String savedImgUrl = fileService.savePhoto(request.getImgUrl(), member.getId());
         photo.setImgUrl(savedImgUrl);
 
-        List<Category> categories = categoryService.createCategory(request.getCategoryList());
+        List<Long> categories = categoryService.createCategory(request.getCategoryList());
         List<PhotoCategory> photoCategory = photo.getPhotoCategories();
 
-        for (Category category : categories) {
+        for (Long categoryId : categories) {
+            Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new Exception("category를 찾을 수 없습니다."));
             PhotoCategory newPhotoCategory = PhotoCategory.builder()
                 .photo(photo)
                 .category(category)

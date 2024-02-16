@@ -29,4 +29,12 @@ public class MemberResponseDto {
         private Long id;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UploadImgDTO {
+        private String imgUrl;
+    }
+
 }

@@ -13,6 +13,7 @@ import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberResponseDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.dto.MemberResponseDto.SignupResponseDto;
+import com.pickpick.server.member.dto.MemberResponseDto.UploadImgDTO;
 import com.pickpick.server.member.service.FriendshipService;
 import com.pickpick.server.member.service.MemberService;
 import com.pickpick.server.global.util.SecurityUtil;
@@ -52,9 +53,11 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/member/img")
-	public ApiResponse<String> uploadImg(ImgDto imgDto) throws Exception{
-		memberService.uploadImg(imgDto.getImgUrl());
-		return ApiResponse.onSuccess("업로드 성공");
+	public ApiResponse<UploadImgDTO> uploadImg(ImgDto imgDto) throws Exception{
+		UploadImgDTO uploadImgDTO = UploadImgDTO.builder()
+				.imgUrl(memberService.uploadImg(imgDto.getImgUrl()))
+				.build();
+		return ApiResponse.onSuccess(uploadImgDTO);
 	}
 
 	@PostMapping("/member/isDuplicated")

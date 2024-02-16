@@ -20,16 +20,18 @@ public class CategoryService {
 	private final CategoryRepository categoryRepository;
 	private final PhotoCategoryRepository photoCategoryRepository;
 
-	public List<Category> createCategory(List<String> list) {
-		List<Category> categories = new ArrayList<>();
+	public List<Long> createCategory(List<String> list) {
+		List<Long> categories = new ArrayList<>();
 		for (String x : list) {
 			if (categoryRepository.existsByName(x)) {
-				categories.add(categoryRepository.findByName(x));
+				categories.add(categoryRepository.findByName(x).getId());
 			} else {
 				Category newCategory = Category.builder()
 						.name(x)
+						.photoCategories(new ArrayList<PhotoCategory>())
 						.build();
-				categories.add(newCategory);
+				categoryRepository.save(newCategory);
+				categories.add(newCategory.getId());
 			}
 		}
 		return categories;

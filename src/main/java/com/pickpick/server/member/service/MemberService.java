@@ -18,6 +18,7 @@ import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberRequestDto.UpdateMemberRequestDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.repository.MemberRepository;
+import java.io.IOException;
 import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
@@ -94,9 +95,10 @@ public class MemberService {
 				.build();
 	}
 
-	public void uploadImg(MultipartFile imgUrl) {
+	public String uploadImg(MultipartFile imgUrl) throws IOException {
 		Member member = memberRepository.findByEmail(SecurityUtil.getLoginEmail()).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
-		member.updateImgUrl(fileService.saveProfileImg(imgUrl));
+		member.updateImgUrl(fileService.saveProfileImg(imgUrl, member.getId()));
+		return member.getImgUrl();
 	}
 
 	public void updateMemberInfo(UpdateMemberRequestDto dto) {
