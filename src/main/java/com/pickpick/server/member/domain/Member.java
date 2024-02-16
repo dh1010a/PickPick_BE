@@ -57,7 +57,6 @@ public class Member extends BaseTimeEntity {
 
 
 	@Enumerated(EnumType.STRING)
-	@ColumnDefault("ACTIVE")
 	private Status status;
 
 	private LocalDateTime deleteAt;
