@@ -14,7 +14,7 @@ import com.pickpick.server.member.dto.MemberResponseDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.service.FriendshipService;
 import com.pickpick.server.member.service.MemberService;
-import com.pickpick.server.global.security.util.SecurityUtil;
+import com.pickpick.server.global.util.SecurityUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;

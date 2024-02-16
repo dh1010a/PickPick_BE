@@ -19,6 +19,7 @@ import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
 import com.pickpick.server.member.repository.MemberRepository;
 import com.pickpick.server.global.security.util.SecurityUtil;
 import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
