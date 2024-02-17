@@ -78,9 +78,10 @@ public class MemberController {
 	}
 
 	@PostMapping("/member/update")
-	public ApiResponse<String> updateUserInfo(@Valid @RequestBody MemberRequestDto.UpdateMemberRequestDto userRequestDto) {
+	public ApiResponse<MemberDto> updateUserInfo(@Valid @RequestBody MemberRequestDto.UpdateMemberRequestDto userRequestDto) {
 		memberService.updateMemberInfo(userRequestDto);
-		return ApiResponse.onSuccess("회원정보 수정에 성공하였습니다.");
+		MemberDto memberDto = memberService.getMyInfo();
+		return ApiResponse.onSuccess(memberDto);
 	}
 
 	@DeleteMapping("/member")
