@@ -12,6 +12,7 @@ import com.pickpick.server.member.dto.MemberRequestDto;
 import com.pickpick.server.member.dto.MemberRequestDto.MemberSignupDto;
 import com.pickpick.server.member.dto.MemberResponseDto;
 import com.pickpick.server.member.dto.MemberResponseDto.IsDuplicateDTO;
+import com.pickpick.server.member.dto.MemberResponseDto.IsSuccessDTO;
 import com.pickpick.server.member.dto.MemberResponseDto.SignupResponseDto;
 import com.pickpick.server.member.dto.MemberResponseDto.UploadImgDTO;
 import com.pickpick.server.member.service.FriendshipService;
@@ -92,12 +93,12 @@ public class MemberController {
 
 	@PostMapping("/member/friends/{email}")
 	@ResponseStatus(HttpStatus.OK)
-	public ApiResponse<String> sendFriendshipRequest(@Valid @PathVariable("email") String email) throws Exception {
+	public ApiResponse<IsSuccessDTO> sendFriendshipRequest(@Valid @PathVariable("email") String email) throws Exception {
 		if(!memberService.isExistByEmail(email)) {
 			throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
 		}
 		friendshipService.createFriendship(email);
-		return ApiResponse.onSuccess(email + " 회원에게 친구 요청 전송 성공하였습니다.");
+		return ApiResponse.onSuccess(IsSuccessDTO.builder().isSuccess(true).build());
 	}
 
 	@GetMapping("/member/friends/received")

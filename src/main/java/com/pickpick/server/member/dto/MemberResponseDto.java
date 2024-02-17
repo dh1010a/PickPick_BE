@@ -37,4 +37,12 @@ public class MemberResponseDto {
         private String imgUrl;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class IsSuccessDTO {
+        private boolean isSuccess;
+    }
+
 }
