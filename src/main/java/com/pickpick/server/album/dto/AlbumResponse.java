@@ -31,17 +31,24 @@ public class AlbumResponse {
         private String titleImgUrl;
         private List<Long> sharedAlbumIds;
         private List<Long> feedIds;
+        private List<Long> memberIds;
     }
 
     @Builder
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class GetAlbumDTO {
+    public static class GetSharedAlbumDTO {
 
-        private List<AlbumDto> shareAlbum;
+        private List<AlbumDto> album;
+    }
 
-        private List<AlbumDto> nonShareAlbum;
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetNonSharedAlbumDTO {
+        private List<AlbumDto> album;
     }
 
     @Builder

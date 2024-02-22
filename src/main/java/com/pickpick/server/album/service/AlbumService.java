@@ -12,6 +12,7 @@ import com.pickpick.server.member.domain.Member;
 import com.pickpick.server.album.dto.AlbumRequest;
 import com.pickpick.server.album.repository.AlbumRepository;
 import com.pickpick.server.album.repository.SharedAlbumRepository;
+import com.pickpick.server.member.domain.enums.ShareStatus;
 import com.pickpick.server.member.repository.MemberRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +42,23 @@ public class AlbumService {
                 throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
 
-            //sharedAlbum 생성
-            SharedAlbum sharedAlbum = SharedAlbum.builder()
-                .member(member.get())
-                .album(album)
-                .build();
+            if (album.getShareStatus() == ShareStatus.SHAREABLE) {
 
-            sharedAlbumRepository.save(sharedAlbum);
+                //sharedAlbum 생성
+                SharedAlbum sharedAlbum = SharedAlbum.builder()
+                        .member(member.get())
+                        .album(album)
+                        .build();
+
+                sharedAlbumRepository.save(sharedAlbum);
+            }
         });
 
         return albumRepository.save(album);
 
     }
 
-    public List<List<Album>> findByEmail(String email) {
+    public List<Album> findByEmailAndGetSharedAlbum(String email) {
         Optional<Member> member = memberRepository.findByEmail(email);
 
         if (member.isEmpty()) {
@@ -66,19 +70,61 @@ public class AlbumService {
         if (!sharedAlbumList.isEmpty()) {
 
             List<Album> shareAlbum = new ArrayList<>();
-            List<Album> nonShareAlbum = new ArrayList<>();
             for (SharedAlbum sharedAlbum : sharedAlbumList) {
                 if (Objects.equals(sharedAlbum.getAlbum().getShareStatus().toString(),
                     "SHAREABLE")) {
                     shareAlbum.add(sharedAlbum.getAlbum());
-                } else {
+                }
+            }
+            return shareAlbum;
+
+        } else {
+            return null;
+        }
+    }
+
+    public List<Long> getSharedMemberId(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if (member.isEmpty()) {
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+
+        List<SharedAlbum> sharedAlbumList = member.get().getSharedAlbums();
+        List<Long> memberIdList = new ArrayList<>();
+
+        for (SharedAlbum x : sharedAlbumList) {
+            List<SharedAlbum> byList = sharedAlbumRepository.findByAlbum(x.getAlbum());
+            for (SharedAlbum y : byList) {
+                Long memberId = y.getMember().getId();
+                if (!memberIdList.contains(memberId)) {
+                    memberIdList.add(memberId);
+                }
+            }
+        }
+        return memberIdList;
+    }
+
+    public List<Album> findByEmailAndGetNonSharedAlbum(String email) {
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        if (member.isEmpty()) {
+            throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
+        }
+
+        List<SharedAlbum> sharedAlbumList = member.get().getSharedAlbums();
+
+
+        if (!sharedAlbumList.isEmpty()) {
+
+            List<Album> nonShareAlbum = new ArrayList<>();
+            for (SharedAlbum sharedAlbum : sharedAlbumList) {
+                if (Objects.equals(sharedAlbum.getAlbum().getShareStatus().toString(),
+                        "NON_SHAREABLE")) {
                     nonShareAlbum.add(sharedAlbum.getAlbum());
                 }
             }
-            List<List<Album>> albums = new ArrayList<>();
-            albums.add(shareAlbum);
-            albums.add(nonShareAlbum);
-            return albums;
+            return nonShareAlbum;
 
         } else {
             return null;
