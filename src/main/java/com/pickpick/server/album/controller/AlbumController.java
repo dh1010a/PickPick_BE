@@ -26,10 +26,17 @@ public class AlbumController {
         return ApiResponse.onSuccess(AlbumConverter.toCreateDTO(albumService.create(request)));
     }
 
-    @GetMapping("/albums")
-    public ApiResponse<AlbumResponse.GetAlbumDTO> getAlbum(){
+    @GetMapping("/albums/shared")
+    public ApiResponse<AlbumResponse.GetSharedAlbumDTO> getSharedAlbum(){
         String memberEmail = SecurityUtil.getLoginEmail();
-        return ApiResponse.onSuccess(AlbumConverter.toGetAlbumDTO(albumService.findByEmail(memberEmail)));
+        return ApiResponse.onSuccess(AlbumConverter.toGetSharedAlbumDTO(albumService.findByEmailAndGetSharedAlbum(memberEmail),
+                albumService.getSharedMemberId(memberEmail)));
+    }
+
+    @GetMapping("/albums/nonShared")
+    public ApiResponse<AlbumResponse.GetNonSharedAlbumDTO> getNonSharedAlbum(){
+        String memberEmail = SecurityUtil.getLoginEmail();
+        return ApiResponse.onSuccess(AlbumConverter.toGetNonSharedAlbumDTO(albumService.findByEmailAndGetNonSharedAlbum(memberEmail)));
     }
 
     

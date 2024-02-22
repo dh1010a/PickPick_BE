@@ -1,6 +1,7 @@
 package com.pickpick.server.global.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.global.security.service.JwtService;
 import com.pickpick.server.member.repository.MemberRepository;
 import jakarta.servlet.ServletException;
@@ -54,7 +55,9 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
 				.refreshToken(refreshToken)
 				.build();
 
-		response.getWriter().write(objectMapper.writeValueAsString(loginDto));
+		response.getWriter().write(objectMapper.writeValueAsString(
+				ApiResponse.onSuccess(loginDto)
+		));
 	}
 
 	private String extractEmail(Authentication authentication) {

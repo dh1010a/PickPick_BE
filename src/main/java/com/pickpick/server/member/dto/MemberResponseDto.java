@@ -11,14 +11,14 @@ public class MemberResponseDto {
     @Builder
     @Getter
     public static class IsDuplicateDTO{
-        private boolean isDuplicate;
+        private Boolean isDuplicate;
     }
 
     @Data
     @Builder
     public static class SignupResponseDto{
         private String email;
-        private boolean isSuccess;
+        private Boolean isSuccess;
     }
 
     @Builder
@@ -35,6 +35,14 @@ public class MemberResponseDto {
     @AllArgsConstructor
     public static class UploadImgDTO {
         private String imgUrl;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class IsSuccessDTO {
+        private Boolean isSuccess;
     }
 
 }
