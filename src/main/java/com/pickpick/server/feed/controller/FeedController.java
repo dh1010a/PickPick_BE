@@ -4,6 +4,7 @@ import com.pickpick.server.feed.dto.FeedRequest;
 import com.pickpick.server.feed.dto.FeedResponse.CreateDTO;
 import com.pickpick.server.feed.dto.FeedResponse.DeleteFeedDTO;
 import com.pickpick.server.feed.dto.FeedResponse.GetFeedDTO;
+import com.pickpick.server.feed.dto.FeedResponse.GetFeedListDTO;
 import com.pickpick.server.feed.dto.FeedResponse.UpdateFeedDTO;
 import com.pickpick.server.global.apiPayload.ApiResponse;
 import com.pickpick.server.global.converter.FeedConverter;
@@ -30,8 +31,13 @@ public class FeedController {
 
 
     @GetMapping("/feeds/{album_id}")
-    public ApiResponse<GetFeedDTO> getFeed(@PathVariable("album_id") @ExistAlbum Long albumId){
-        return ApiResponse.onSuccess(FeedConverter.toGetFeedDTO(feedService.getFeed(albumId)));
+    public ApiResponse<GetFeedListDTO> getAlbumFeeds(@PathVariable("album_id") @ExistAlbum Long albumId){
+        return ApiResponse.onSuccess(FeedConverter.toGetFeedListDTO(feedService.getAlbumFeeds(albumId)));
+    }
+
+    @GetMapping("/feed/{feed_id}")
+    public ApiResponse<GetFeedDTO> getFeed(@PathVariable("feed_id") @ExistAlbum Long feedId){
+        return ApiResponse.onSuccess(FeedConverter.toGetFeedDTO(feedService.getFeed(feedId)));
     }
 
     @PostMapping("/feed/update")

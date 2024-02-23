@@ -64,7 +64,7 @@ public class FeedService {
     }
 
     //줘야 하는 값 고민
-    public List<Long> getFeed(Long albumId){
+    public List<Long> getAlbumFeeds(Long albumId){
         Optional<Album> album = albumRepository.findById(albumId);
         if(album.isEmpty()){
             throw new AlbumHandler(ErrorStatus.ALBUM_NOT_FOUND);
@@ -76,6 +76,14 @@ public class FeedService {
             feedIdList.add(feed.getId());
         }
         return feedIdList;
+    }
+
+    public Feed getFeed(Long feedId){
+        Optional<Feed> feed = feedRepository.findById(feedId);
+        if(feed.isEmpty()){
+            throw new FeedHandler(ErrorStatus.FEED_NOT_FOUND);
+        }
+        return feed.get();
     }
 
     public Feed updateFeed(UpdateFeedDTO request){
