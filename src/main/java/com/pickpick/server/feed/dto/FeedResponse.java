@@ -21,9 +21,21 @@ public class FeedResponse {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class GetFeedDTO {
+    public static class GetFeedListDTO {
 
         private List<Long> feedIdList;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GetFeedDTO {
+        private Long memberId;
+        private Long albumId;
+        private List<Long> photoIdList;
+        private String content;
+
     }
 
     @Builder
