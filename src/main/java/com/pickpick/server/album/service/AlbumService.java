@@ -42,16 +42,14 @@ public class AlbumService {
                 throw new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND);
             }
 
-            if (album.getShareStatus() == ShareStatus.SHAREABLE) {
+            //sharedAlbum 생성
+            SharedAlbum sharedAlbum = SharedAlbum.builder()
+                    .member(member.get())
+                    .album(album)
+                    .build();
 
-                //sharedAlbum 생성
-                SharedAlbum sharedAlbum = SharedAlbum.builder()
-                        .member(member.get())
-                        .album(album)
-                        .build();
-
-                sharedAlbumRepository.save(sharedAlbum);
-            }
+            sharedAlbumRepository.save(sharedAlbum);
+            member.get().getSharedAlbums().add(sharedAlbum);
         });
 
         return albumRepository.save(album);
@@ -119,8 +117,8 @@ public class AlbumService {
 
             List<Album> nonShareAlbum = new ArrayList<>();
             for (SharedAlbum sharedAlbum : sharedAlbumList) {
-                if (Objects.equals(sharedAlbum.getAlbum().getShareStatus().toString(),
-                        "NON_SHAREABLE")) {
+                if (sharedAlbum.getAlbum().getShareStatus().toString()
+                        .equals("NON_SHAREABLE")) {
                     nonShareAlbum.add(sharedAlbum.getAlbum());
                 }
             }
