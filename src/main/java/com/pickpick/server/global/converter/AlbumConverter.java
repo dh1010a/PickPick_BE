@@ -57,6 +57,7 @@ public class AlbumConverter {
                     .name(a.getName())
                     .titleImgUrl(a.getTitleImgUrl())
                     .sharedAlbumIds(a.getSharedAlbums().stream().map(SharedAlbum::getId).toList())
+                    .createdAt(a.getCreatedAt())
                     .feedIds(a.getFeed().stream().map(Feed::getId).toList())
                     .memberIds(memberIdList)
                     .build());
